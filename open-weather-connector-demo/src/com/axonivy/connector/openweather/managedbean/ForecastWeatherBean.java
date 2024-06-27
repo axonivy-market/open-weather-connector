@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,6 +37,8 @@ import com.axonivy.connector.openweather.dto.DailyForecastDisplayInfo;
 import com.axonivy.connector.openweather.service.ForecastService;
 import com.axonivy.connector.openweather.util.Constants;
 import com.axonivy.connector.openweather.util.DateTimeFormatterUtilities;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.ivyteam.ivy.environment.Ivy;
 
@@ -74,6 +77,7 @@ public class ForecastWeatherBean implements Serializable {
 	private LineChartModel temperatureModel;
 	private String temperatureData;
 	private BarChartModel precipitationModel;
+	private LineChartModel windModel;
 	private int chartWindowSize;
 	private int currentChartWindowStartX;
 	private int currentChartWindowEndX;
@@ -275,6 +279,14 @@ public class ForecastWeatherBean implements Serializable {
 		return precipitationModel;
 	}
 
+	public LineChartModel getWindModel() {
+		return windModel;
+	}
+
+	public void setWindModel(LineChartModel windModel) {
+		this.windModel = windModel;
+	}
+
 	public int getChartWindowSize() {
 		return chartWindowSize;
 	}
@@ -308,6 +320,7 @@ public class ForecastWeatherBean implements Serializable {
 		setSelectedDateIndex(0);
 		createTemperatureModel();
 		createPrecipitationModel();
+		createWindModel();
 	}
 
 	private void processAndGroupForecastData() {
@@ -384,6 +397,65 @@ public class ForecastWeatherBean implements Serializable {
 		data.addChartDataSet(dataSet);
 		return data;
 	}
+	
+	public ChartData preparePrecipitationChartData() {
+		ChartData data = new ChartData();
+		BarChartDataSet dataSet = new BarChartDataSet();
+		dataSet.setLabel(Constants.Chart.PRECIPITATION_DATASET_LABEL);
+		dataSet.setData(preparePrecipitationData());
+		data.setLabels(prepareTimeLabels());
+		data.addChartDataSet(dataSet);
+		return data;
+	}
+
+	public void createWindModel() {
+		windModel = new LineChartModel();
+		LineChartOptions options = new LineChartOptions();
+		windModel.setData(prepareWindChartData());
+		windModel.setOptions(options);
+		windModel.setExtender(Constants.UiVariable.WIND_CHART_EXTENDER_JS_METHOD_NAME);
+	}
+	
+
+	public ChartData prepareWindChartData() {
+		ChartData data = new ChartData();
+		LineChartDataSet dataSet = new LineChartDataSet();
+		dataSet.setLabel(Constants.Chart.WIND_DATASET_LABEL);
+		dataSet.setData(prepareWindData());
+		dataSet.setCubicInterpolationMode(prepareCustomWindData());
+		data.setLabels(prepareTimeLabels());
+		data.addChartDataSet(dataSet);
+		return data;
+	}
+
+	private String prepareCustomWindData() {
+		List<Map<String, Float>> result = dailyForecastDisplayInfos.stream()
+				.map(DailyForecastDisplayInfo::getDailyForecast)
+				.flatMap(dailyForecast -> dailyForecast.getDailyRecords().stream().map(record -> {
+					Map<String, Float> data = new HashMap<>();
+					data.put("speed", record.getWind().getSpeed().floatValue());
+					data.put("deg", record.getWind().getDeg().floatValue());
+					return data;
+				})).collect(Collectors.toList());
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			return mapper.writeValueAsString(result);
+		} catch (JsonProcessingException e) {
+			return StringUtils.EMPTY;
+		}
+	}
+
+	public List<Object> prepareWindData() {
+		return dailyForecastDisplayInfos.stream().map(DailyForecastDisplayInfo::getDailyForecast)
+				.flatMap(dailyForecast -> dailyForecast.getDailyRecords().stream().map(record -> {
+					Map<String, Integer> data = new HashMap<>();
+					data.put("speed", record.getWind().getSpeed().intValue());
+					data.put("deg", record.getWind().getDeg().intValue());
+					return 30;
+				})).collect(Collectors.toList());
+	}
 
 	public List<Object> prepareTemperatureData() {
 		return dailyForecastDisplayInfos
@@ -407,15 +479,6 @@ public class ForecastWeatherBean implements Serializable {
 		precipitationModel.setExtender(Constants.UiVariable.PRECIPITATION_CHART_EXTENDER_JS_METHOD_NAME);
 	}
 
-	public ChartData preparePrecipitationChartData() {
-		ChartData data = new ChartData();
-		BarChartDataSet dataSet = new BarChartDataSet();
-		dataSet.setLabel(Constants.Chart.PRECIPITATION_DATASET_LABEL);
-		dataSet.setData(preparePrecipitationData());
-		data.setLabels(prepareTimeLabels());
-		data.addChartDataSet(dataSet);
-		return data;
-	}
 
 	public List<Number> preparePrecipitationData() {
 		return dailyForecastDisplayInfos.stream().map(DailyForecastDisplayInfo::getDailyForecast).flatMap(
