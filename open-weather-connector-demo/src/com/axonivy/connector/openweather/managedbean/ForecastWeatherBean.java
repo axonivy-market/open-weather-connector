@@ -449,12 +449,8 @@ public class ForecastWeatherBean implements Serializable {
 
 	public List<Object> prepareWindData() {
 		return dailyForecastDisplayInfos.stream().map(DailyForecastDisplayInfo::getDailyForecast)
-				.flatMap(dailyForecast -> dailyForecast.getDailyRecords().stream().map(record -> {
-					Map<String, Integer> data = new HashMap<>();
-					data.put("speed", record.getWind().getSpeed().intValue());
-					data.put("deg", record.getWind().getDeg().intValue());
-					return 30;
-				})).collect(Collectors.toList());
+				.flatMap(dailyForecast -> dailyForecast.getDailyRecords().stream().map(record -> 10))
+				.collect(Collectors.toList());
 	}
 
 	public List<Object> prepareTemperatureData() {

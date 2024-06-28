@@ -144,13 +144,29 @@ function precipitationChartExtender() {
 }
 
 function windChartExtender() {
+  let windData = JSON.parse(
+    this.cfg.config.data.datasets[0].cubicInterpolationMode
+  );
+
+  const customLabelPlugin = {
+    id: "customLabel",
+    afterDraw: (chart) => {
+      const min = this.cfg.config.options.scales.x.min;
+      const max = this.cfg.config.options.scales.x.max;
+
+      let position = 0;
+      for (let i = min; i <= max; i++) {
+        chart.ctx.fillText(`${windData[i].speed} m/s`, position, 50);
+        position += 95;
+      }
+    },
+  };
   //Register plugin datalabels
   jQuery.extend(true, this.cfg.config, {
-    plugins: [ChartDataLabels, ClickPositionDetector],
+    plugins: [ChartDataLabels, ClickPositionDetector, customLabelPlugin],
   });
-
+  console.log(this.cfg);
   let data = [...this.cfg.config.data.datasets[0].data];
-  const windData = JSON.parse(this.cfg.config.data.datasets[0].cubicInterpolationMode);
 
   let options = jQuery.extend(true, {}, this.cfg.config.options);
   options = {
@@ -199,16 +215,15 @@ function windChartExtender() {
           return windData[context.dataIndex].deg;
         },
         formatter: function (value, context) {
-          return '⬇';
+          return "⬇";
         },
         offset: 2,
-        font: context => {
-					const speed = windData[context.dataIndex].speed
-					return {
-						weight: "bold",
-						size: speed > 5 ? 50 : 30,
-
-					}
+        font: (context) => {
+          const speed = windData[context.dataIndex].speed;
+          return {
+            weight: "bold",
+            size: speed > 5 ? 50 : 30,
+          };
         },
       },
     },
@@ -221,8 +236,8 @@ function windChartExtender() {
       {
         showLine: false,
         borderWidth: 2,
-        backgroundColor: "white",
-        borderColor: "white",
+        backgroundColor: "transparent",
+        borderColor: "transparent",
         barThickness: 80,
       },
     ],
