@@ -156,7 +156,12 @@ function windChartExtender() {
 
       let position = 0;
       for (let i = min; i <= max; i++) {
-        chart.ctx.fillText(`${windData[i].speed} m/s`, position, 50);
+        chart.ctx.fillStyle = "gray";
+        chart.ctx.fillText(
+          `${(windData[i].speed * 3.6).toFixed(1)} km/h`,
+          position,
+          50
+        );
         position += 95;
       }
     },
@@ -165,7 +170,6 @@ function windChartExtender() {
   jQuery.extend(true, this.cfg.config, {
     plugins: [ChartDataLabels, ClickPositionDetector, customLabelPlugin],
   });
-  console.log(this.cfg);
   let data = [...this.cfg.config.data.datasets[0].data];
 
   let options = jQuery.extend(true, {}, this.cfg.config.options);
@@ -219,10 +223,10 @@ function windChartExtender() {
         },
         offset: 2,
         font: (context) => {
-          const speed = windData[context.dataIndex].speed;
+          const speed = (windData[context.dataIndex].speed * 3.6).toFixed(1);
           return {
             weight: "bold",
-            size: speed > 5 ? 50 : 30,
+            size: speed > 14 ? 50 : 30,
           };
         },
       },
