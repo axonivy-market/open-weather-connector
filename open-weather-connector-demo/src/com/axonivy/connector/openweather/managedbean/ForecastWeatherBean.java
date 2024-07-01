@@ -336,7 +336,8 @@ public class ForecastWeatherBean implements Serializable {
 			record.getWeather().forEach(weather -> {
 				String icon = weather.getIcon();
 				if (icon != null) {
-					icon = icon.replace(Constants.OpenWeatherMapVariable.NOTATION_NIGHT, Constants.OpenWeatherMapVariable.NOTATION_DAY);
+					icon = icon.replace(Constants.OpenWeatherMapVariable.NOTATION_NIGHT,
+							Constants.OpenWeatherMapVariable.NOTATION_DAY);
 					weather.setIcon(icon);
 				}
 			});
@@ -397,7 +398,7 @@ public class ForecastWeatherBean implements Serializable {
 		data.addChartDataSet(dataSet);
 		return data;
 	}
-	
+
 	public ChartData preparePrecipitationChartData() {
 		ChartData data = new ChartData();
 		BarChartDataSet dataSet = new BarChartDataSet();
@@ -415,7 +416,6 @@ public class ForecastWeatherBean implements Serializable {
 		windModel.setOptions(options);
 		windModel.setExtender(Constants.UiVariable.WIND_CHART_EXTENDER_JS_METHOD_NAME);
 	}
-	
 
 	public ChartData prepareWindChartData() {
 		ChartData data = new ChartData();
@@ -474,7 +474,6 @@ public class ForecastWeatherBean implements Serializable {
 		precipitationModel.setData(preparePrecipitationChartData());
 		precipitationModel.setExtender(Constants.UiVariable.PRECIPITATION_CHART_EXTENDER_JS_METHOD_NAME);
 	}
-
 
 	public List<Number> preparePrecipitationData() {
 		return dailyForecastDisplayInfos.stream().map(DailyForecastDisplayInfo::getDailyForecast).flatMap(
