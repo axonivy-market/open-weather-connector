@@ -153,8 +153,6 @@ function windChartExtender() {
       const data = JSON.parse(
         this.cfg.config.data.datasets[0].cubicInterpolationMode
       );
-      const el = document.getElementsByClassName('weather-date-btn-label')
-      console.log(el[0].style.color)
       const min = this.cfg.config.options.scales.x.min;
       const max = this.cfg.config.options.scales.x.max;
       let position = 0;
