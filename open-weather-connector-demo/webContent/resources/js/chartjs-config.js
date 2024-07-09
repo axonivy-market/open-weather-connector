@@ -147,21 +147,20 @@ function windChartExtender() {
   let windData = JSON.parse(
     this.cfg.config.data.datasets[0].cubicInterpolationMode
   );
-
   const customLabelPlugin = {
     id: "customLabel",
     afterDraw: (chart) => {
+      const data = JSON.parse(
+        this.cfg.config.data.datasets[0].cubicInterpolationMode
+      );
+      const el = document.getElementsByClassName('weather-date-btn-label')
+      console.log(el[0].style.color)
       const min = this.cfg.config.options.scales.x.min;
       const max = this.cfg.config.options.scales.x.max;
-
       let position = 0;
       for (let i = min; i <= max; i++) {
-        chart.ctx.fillStyle = "gray";
-        chart.ctx.fillText(
-          `${(windData[i].speed * 3.6).toFixed(1)} km/h`,
-          position,
-          50
-        );
+        chart.ctx.fillStyle = fontColor;
+        chart.ctx.fillText(`${data[i].speed}`, position, 50);
         position += 95;
       }
     },
@@ -170,7 +169,6 @@ function windChartExtender() {
   jQuery.extend(true, this.cfg.config, {
     plugins: [ChartDataLabels, ClickPositionDetector, customLabelPlugin],
   });
-  let data = [...this.cfg.config.data.datasets[0].data];
 
   let options = jQuery.extend(true, {}, this.cfg.config.options);
   options = {
@@ -215,6 +213,7 @@ function windChartExtender() {
         display: "true",
         anchor: "end",
         align: "top",
+        color: fontColor,
         rotation: (context) => {
           return windData[context.dataIndex].deg;
         },
@@ -223,10 +222,19 @@ function windChartExtender() {
         },
         offset: 2,
         font: (context) => {
-          const speed = (windData[context.dataIndex].speed * 3.6).toFixed(1);
+          const data = windData[context.dataIndex].speed.split(" ");
+          const speed = data[0];
+          const unit = data[1];
+          let level = 0;
+          if (unit.trim() === "m/s") {
+            level = 5;
+          } else {
+            level = 10;
+          }
+
           return {
             weight: "bold",
-            size: speed > 14 ? 50 : 30,
+            size: speed > level ? 50 : 30,
           };
         },
       },
@@ -307,6 +315,10 @@ function updateChartWithNewData() {
 
   var tempChart = PF("tempChartWidgetVar").chart;
   var temperatureData = tempChart.data.datasets[0].data;
+  var windChart = PF("windChartWidgetVar").chart;
+  if (windChart) {
+    updateWindChartData(windChart);
+  }
 
   data = temperatureData.map(function (value, index) {
     if (index < newTemperatureData.length) {
@@ -321,4 +333,21 @@ function updateChartWithNewData() {
   tempChart.options.scales.y.max =
     Math.max(...data) + 0.3 * (Math.max(...data) - Math.min(...data));
   tempChart.update();
+}
+
+function updateWindChartData(windChart) {
+  let customData = JSON.parse(
+    windChart.data.datasets[0].cubicInterpolationMode
+  );
+  customData.map((value) => {
+    const data = value.speed.split(" ");
+    if (data[1].trim() === "m/s") {
+      value.speed = `${(data[0] * 2.237).toFixed(2)} mph`;
+    } else {
+      value.speed = `${(data[0] / 2.237).toFixed(2)} m/s`;
+    }
+  });
+  windChart.data.datasets[0].cubicInterpolationMode =
+    JSON.stringify(customData);
+  windChart.update();
 }

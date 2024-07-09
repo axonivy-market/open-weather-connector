@@ -429,12 +429,12 @@ public class ForecastWeatherBean implements Serializable {
 	}
 
 	private String prepareCustomWindData() {
-		List<Map<String, Float>> result = dailyForecastDisplayInfos.stream()
+		List<Map<String, String>> result = dailyForecastDisplayInfos.stream()
 				.map(DailyForecastDisplayInfo::getDailyForecast)
 				.flatMap(dailyForecast -> dailyForecast.getDailyRecords().stream().map(record -> {
-					Map<String, Float> data = new HashMap<>();
-					data.put("speed", record.getWind().getSpeed().floatValue());
-					data.put("deg", record.getWind().getDeg().floatValue());
+					Map<String, String> data = new HashMap<>();
+					data.put("speed", record.getWind().getSpeed().toString() + " " + speedUnit);
+					data.put("deg", record.getWind().getDeg().toString());
 					return data;
 				})).collect(Collectors.toList());
 
