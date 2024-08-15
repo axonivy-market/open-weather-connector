@@ -3,9 +3,9 @@
 Harness the power of freely available weather data for your business processes with OpenWeather! This Axon Ivy Connector implements access to OpenWeatherMap data sets and creates various weather maps within the free plan:
 
 * **Current Weather:** Get the current weather for any location worldwide.
-**Advanced forecasts:** Plan ahead with multi-day forecasts.
+* **Advanced forecasts:** Plan ahead with multi-day forecasts.
 * **Precipitation:** Forecast the probability of precipitation for the next few days.
-** **Wind:** Wind strength and prevailing direction can also be predicted.
+* **Wind:** Wind strength and prevailing direction can also be predicted.
 
 This connector supports you with a demo implementation to reduce your integration effort
 
