@@ -1,13 +1,13 @@
 # OpenWeather Connector
 
-Harness the power of freely available weather data for your business processes with OpenWeather! This Axon Ivy Connector implements access to OpenWeatherMap data sets and creates various weather maps within the free plan:
+Nutze die Power frei verfügbarer Wetterdaten für deine Geschäftsprozesse mit OpenWeather! Dieser Axon Ivy Connector implementiert den Zugang zu den  Datensätzen von OpenWeatherMap und erstellt dir verschiedene Wetterkarten innerhalb des kostenlosen Plans:
 
-* **Current Weather:** Get the current weather for any location worldwide.
-* **Advanced forecasts:** Plan ahead with multi-day forecasts.
-* **Precipitation:** Forecast the probability of precipitation for the next few days.
-* **Wind:** Wind strength and prevailing direction can also be predicted.
+* **Aktuelles Wetter:** Erhalte das aktuelle Wetter für jeden Ort weltweit.
+* **Erweiterte Vorhersagen:** Plane im Voraus mit  Prognosen über mehrere Tage.
+* **Niederschlag:** Vorhersage der Wahrscheinlichkeit für Niederschlag für die nächsten Tage.
+* **Wind:** Windstärke und vorherrschende Richtung kann auch vorhergesagt werden.
 
-This connector supports you with a demo implementation to reduce your integration effort
+Dieser Konnektor unterstützt dich mit einer Demo-Implementierung, um deinen Integrationsaufwand zu reduzieren
 
 ## Demo
 
@@ -37,3 +37,4 @@ After a **API key** is available, you can store it in your project in the variab
 ```
 @variables.yaml@ 
 ```
+
