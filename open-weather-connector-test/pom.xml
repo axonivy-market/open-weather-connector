@@ -40,6 +40,11 @@
 			<version>${tester.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+	      <groupId>com.microsoft.playwright</groupId>
+	      <artifactId>playwright</artifactId>
+	      <version>1.48.0</version>
+	    </dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>
@@ -61,6 +66,15 @@
 				<version>${project.build.plugin.version}</version>
 				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+       			<artifactId>maven-surefire-plugin</artifactId>
+        		<version>3.0.0-M5</version>
+        		<configuration>
+          			<systemPropertyVariables>
+            			<apiToken>${openweather.apitoken}</apiToken>
+          			</systemPropertyVariables>
+        		</configuration>
+      		</plugin>
 		</plugins>
 	</build>
 </project>
