@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@feature/MARP-1412-Implement-a-common-workflow-for-api-testing
+    uses: axonivy-market/github-workflows/.github/workflows/api.yml@feature/MARP-1412-Implement-a-common-workflow-for-api-testing
     with:
       postman_collection_location: ./open-weather-connector-test/src_test/resources/open-weather.postman_collection.json
     secrets:
