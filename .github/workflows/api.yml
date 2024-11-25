@@ -1,0 +1,15 @@
+name: Api testing
+
+on:
+  push:
+  schedule:
+    - cron:  '21 21 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@feature/MARP-1412-Implement-a-common-workflow-for-api-testing
+    with:
+      postman_collection_location: ./open-weather-connector-test/src_test/resources/open-weather.postman_collection.json
+    secrets:
+      postman_env_content: ${{ secrets.postman_env_content }}
