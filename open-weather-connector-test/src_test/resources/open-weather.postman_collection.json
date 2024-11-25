@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "b9dbdb78-789d-408c-b9ab-70082b18f31e",
+		"name": "open-weather-api-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20987298"
+	},
+	"item": [
+		{
+			"name": "Get weather data without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"Response message indicates invalid API key\", function () {",
+							"    pm.expect(pm.response.json().message).to.include(\"Invalid API key\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weatherUrl}}?q=London&units=metric",
+					"host": [
+						"{{weatherUrl}}"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "London"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get weather data by lat and lon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Location name should be Ho Chi Minh City\", function () {",
+							"     var responseJSON = pm.response.json();",
+							"     pm.expect(responseJSON.name).to.equal(\"Ho Chi Minh City\");",
+							"});",
+							"",
+							"pm.test(\"Location country should be based in Viet Nam\", function () {",
+							"     var responseJSON = pm.response.json();",
+							"     pm.expect(responseJSON.sys.country).to.equal('VN');",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{weatherUrl}}?lat={{hcm-lat}}&lon={{hcm-lon}}&appid={{token}}",
+					"host": [
+						"{{weatherUrl}}"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{hcm-lat}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{hcm-lon}}"
+						},
+						{
+							"key": "appid",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get weather data by lat and lon Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if there is 1 record with name 'Chelsea'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.some(item => item.name === 'Chelsea')).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{geoUrl}}?q=London&limit=5&appId={{token}}",
+					"host": [
+						"{{geoUrl}}"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "London"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "appId",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
