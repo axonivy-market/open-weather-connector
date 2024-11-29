@@ -1,5 +1,5 @@
 {
-  "format" : "10.0.0",
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
   "id" : "18D5F6F109062548",
   "kind" : "CALLABLE_SUB",
   "config" : {
@@ -10,13 +10,13 @@
       "type" : "CallSubStart",
       "name" : "getCoordinatesByLocationName(String,String,String,Integer)",
       "config" : {
-        "callSignature" : "getCoordinatesByLocationName",
+        "signature" : "getCoordinatesByLocationName",
         "input" : {
           "params" : [
-            { "name" : "cityName", "type" : "String" },
-            { "name" : "countryCode", "type" : "String" },
-            { "name" : "stateCode", "type" : "String" },
-            { "name" : "limit", "type" : "Integer" }
+            { "name" : "cityName", "type" : "String", "desc" : "" },
+            { "name" : "countryCode", "type" : "String", "desc" : "" },
+            { "name" : "stateCode", "type" : "String", "desc" : "" },
+            { "name" : "limit", "type" : "Integer", "desc" : "" }
           ],
           "map" : {
             "out.param.cityName" : "param.cityName",
@@ -32,21 +32,25 @@
         },
         "result" : {
           "params" : [
-            { "name" : "geoLocations", "type" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>" },
-            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError" }
+            { "name" : "geoLocations", "type" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>", "desc" : "" },
+            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError", "desc" : "" }
           ],
           "map" : {
             "result.geoLocations" : "in.#results",
             "result.error" : "in.#error"
           }
-        },
-        "tags" : "connector"
+        }
       },
+      "tags" : [
+        "connector"
+      ],
       "visual" : {
         "at" : { "x" : 208, "y" : 120 },
         "labelOffset" : { "x" : -23, "y" : 33 }
       },
-      "connect" : { "id" : "f4", "to" : "f3" }
+      "connect" : [
+        { "id" : "f4", "to" : "f3" }
+      ]
     }, {
       "id" : "f1",
       "type" : "CallSubEnd",
@@ -58,19 +62,23 @@
       "type" : "RestClientCall",
       "name" : "call rest",
       "config" : {
-        "path" : "/direct",
-        "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
-        "clientErrorCode" : "ivy:error:rest:client",
-        "queryParams" : {
-          "q" : "in.param.q is initialized ? in.param.q : null",
-          "appid" : "",
-          "limit" : "in.param.limit is initialized ? in.param.limit : null"
+        "target" : {
+          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "path" : "/direct",
+          "queryParams" : {
+            "q" : "in.param.q is initialized ? in.param.q : null",
+            "appid" : "",
+            "limit" : "in.param.limit is initialized ? in.param.limit : null"
+          }
         },
-        "statusErrorCode" : "ivy:error:rest:client",
-        "responseMapping" : {
-          "out.results" : "result"
-        },
-        "resultType" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>"
+        "response" : {
+          "entity" : {
+            "type" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>",
+            "map" : {
+              "out.results" : "result"
+            }
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 408, "y" : 120 }
@@ -89,19 +97,23 @@
           "visual" : {
             "at" : { "x" : 440, "y" : 162 }
           },
-          "connect" : { "id" : "f6", "to" : "f1", "via" : [ { "x" : 552, "y" : 160 } ] }
+          "connect" : [
+            { "id" : "f6", "to" : "f1", "via" : [ { "x" : 552, "y" : 160 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f2", "to" : "f1" }
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
     }, {
       "id" : "f7",
       "type" : "CallSubStart",
       "name" : "getCoordinatesByZipCode(String,String)",
       "config" : {
-        "callSignature" : "getCoordinatesByZipCode",
+        "signature" : "getCoordinatesByZipCode",
         "input" : {
           "params" : [
-            { "name" : "zipCode", "type" : "String" },
-            { "name" : "countryCode", "type" : "String" }
+            { "name" : "zipCode", "type" : "String", "desc" : "" },
+            { "name" : "countryCode", "type" : "String", "desc" : "" }
           ],
           "map" : {
             "out.param.countryCode" : "param.countryCode",
@@ -116,21 +128,25 @@
         },
         "result" : {
           "params" : [
-            { "name" : "geoLocation", "type" : "org.openweathermap.api.geo1_0.client.GeoLocation" },
-            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError" }
+            { "name" : "geoLocation", "type" : "org.openweathermap.api.geo1_0.client.GeoLocation", "desc" : "" },
+            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError", "desc" : "" }
           ],
           "map" : {
             "result.geoLocation" : "in.#result",
             "result.error" : "in.#error"
           }
-        },
-        "tags" : "connector"
+        }
       },
+      "tags" : [
+        "connector"
+      ],
       "visual" : {
         "at" : { "x" : 208, "y" : 232 },
         "labelOffset" : { "x" : 33, "y" : 33 }
       },
-      "connect" : { "id" : "f12", "to" : "f9" }
+      "connect" : [
+        { "id" : "f12", "to" : "f9" }
+      ]
     }, {
       "id" : "f8",
       "type" : "CallSubEnd",
@@ -142,18 +158,22 @@
       "type" : "RestClientCall",
       "name" : "call rest",
       "config" : {
-        "path" : "/zip",
-        "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
-        "clientErrorCode" : "ivy:error:rest:client",
-        "queryParams" : {
-          "appid" : "",
-          "zip" : "in.param.zip is initialized ? in.param.zip : null"
+        "target" : {
+          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "path" : "/zip",
+          "queryParams" : {
+            "appid" : "",
+            "zip" : "in.param.zip is initialized ? in.param.zip : null"
+          }
         },
-        "statusErrorCode" : "ivy:error:rest:client",
-        "responseMapping" : {
-          "out.result" : "result"
-        },
-        "resultType" : "org.openweathermap.api.geo1_0.client.GeoLocation"
+        "response" : {
+          "entity" : {
+            "type" : "org.openweathermap.api.geo1_0.client.GeoLocation",
+            "map" : {
+              "out.result" : "result"
+            }
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 408, "y" : 232 }
@@ -172,20 +192,24 @@
           "visual" : {
             "at" : { "x" : 440, "y" : 274 }
           },
-          "connect" : { "id" : "f13", "to" : "f8", "via" : [ { "x" : 552, "y" : 272 } ] }
+          "connect" : [
+            { "id" : "f13", "to" : "f8", "via" : [ { "x" : 552, "y" : 272 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f11", "to" : "f8" }
+      "connect" : [
+        { "id" : "f11", "to" : "f8" }
+      ]
     }, {
       "id" : "f14",
       "type" : "CallSubStart",
       "name" : "reverse(Double,Double,Integer)",
       "config" : {
-        "callSignature" : "reverse",
+        "signature" : "reverse",
         "input" : {
           "params" : [
-            { "name" : "lat", "type" : "Double" },
-            { "name" : "lon", "type" : "Double" },
-            { "name" : "limit", "type" : "Integer" }
+            { "name" : "lat", "type" : "Double", "desc" : "" },
+            { "name" : "lon", "type" : "Double", "desc" : "" },
+            { "name" : "limit", "type" : "Integer", "desc" : "" }
           ],
           "map" : {
             "out.param.lat" : "param.lat",
@@ -195,21 +219,25 @@
         },
         "result" : {
           "params" : [
-            { "name" : "geoLocation", "type" : "List<org.openweathermap.api.geo1_0.client.GeoLocation>" },
-            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError" }
+            { "name" : "geoLocation", "type" : "List<org.openweathermap.api.geo1_0.client.GeoLocation>", "desc" : "" },
+            { "name" : "error", "type" : "ch.ivyteam.ivy.bpm.error.BpmError", "desc" : "" }
           ],
           "map" : {
             "result.geoLocation" : "in.#results",
             "result.error" : "in.#error"
           }
-        },
-        "tags" : "connector"
+        }
       },
+      "tags" : [
+        "connector"
+      ],
       "visual" : {
         "at" : { "x" : 208, "y" : 344 },
         "labelOffset" : { "x" : 57, "y" : 33 }
       },
-      "connect" : { "id" : "f18", "to" : "f16" }
+      "connect" : [
+        { "id" : "f18", "to" : "f16" }
+      ]
     }, {
       "id" : "f15",
       "type" : "CallSubEnd",
@@ -221,19 +249,23 @@
       "type" : "RestClientCall",
       "name" : "call rest",
       "config" : {
-        "path" : "/reverse",
-        "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
-        "clientErrorCode" : "ivy:error:rest:client",
-        "queryParams" : {
-          "limit" : "in.param.limit is initialized ? in.param.limit : null",
-          "lat" : "in.param.lat is initialized ? in.param.lat : null",
-          "lon" : "in.param.lon is initialized ? in.param.lon : null"
+        "target" : {
+          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "path" : "/reverse",
+          "queryParams" : {
+            "limit" : "in.param.limit is initialized ? in.param.limit : null",
+            "lat" : "in.param.lat is initialized ? in.param.lat : null",
+            "lon" : "in.param.lon is initialized ? in.param.lon : null"
+          }
         },
-        "statusErrorCode" : "ivy:error:rest:client",
-        "responseMapping" : {
-          "out.results" : "result"
-        },
-        "resultType" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>"
+        "response" : {
+          "entity" : {
+            "type" : "java.util.List<org.openweathermap.api.geo1_0.client.GeoLocation>",
+            "map" : {
+              "out.results" : "result"
+            }
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 408, "y" : 344 }
@@ -252,8 +284,12 @@
           "visual" : {
             "at" : { "x" : 440, "y" : 386 }
           },
-          "connect" : { "id" : "f20", "to" : "f15", "via" : [ { "x" : 552, "y" : 384 } ] }
+          "connect" : [
+            { "id" : "f20", "to" : "f15", "via" : [ { "x" : 552, "y" : 384 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f19", "to" : "f15" }
+      "connect" : [
+        { "id" : "f19", "to" : "f15" }
+      ]
     } ]
 }
