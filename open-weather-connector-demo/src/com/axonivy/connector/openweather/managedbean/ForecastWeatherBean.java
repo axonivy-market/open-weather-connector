@@ -383,7 +383,7 @@ public class ForecastWeatherBean implements Serializable {
 		temperatureModel = new LineChartModel();
 		LineChartOptions options = new LineChartOptions();
 		options.setResponsive(true);
-        options.setMaintainAspectRatio(false);
+		options.setMaintainAspectRatio(false);
 		temperatureModel.setOptions(options);
 		temperatureModel.setData(prepareTemperatureChartData());
 		temperatureModel.setExtender(Constants.UiVariable.TEMPERATURE_CHART_EXTENDER_JS_METHOD_NAME);
@@ -415,7 +415,7 @@ public class ForecastWeatherBean implements Serializable {
 		windModel = new LineChartModel();
 		LineChartOptions options = new LineChartOptions();
 		options.setResponsive(true);
-        options.setMaintainAspectRatio(false);
+		options.setMaintainAspectRatio(false);
 		windModel.setData(prepareWindChartData());
 		windModel.setOptions(options);
 		windModel.setExtender(Constants.UiVariable.WIND_CHART_EXTENDER_JS_METHOD_NAME);
@@ -474,8 +474,8 @@ public class ForecastWeatherBean implements Serializable {
 	public void createPrecipitationModel() {
 		precipitationModel = new BarChartModel();
 		BarChartOptions options = new BarChartOptions();
-		options.setResponsive(true); 
-        options.setMaintainAspectRatio(false);
+		options.setResponsive(true);
+		options.setMaintainAspectRatio(false);
 		precipitationModel.setOptions(options);
 		precipitationModel.setData(preparePrecipitationChartData());
 		precipitationModel.setExtender(Constants.UiVariable.PRECIPITATION_CHART_EXTENDER_JS_METHOD_NAME);
