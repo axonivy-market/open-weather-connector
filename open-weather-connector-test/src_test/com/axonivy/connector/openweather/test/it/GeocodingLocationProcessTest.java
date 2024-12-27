@@ -12,7 +12,6 @@ import org.openweathermap.api.geo1_0.client.GeoLocation;
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
-import ch.ivyteam.ivy.environment.Ivy;
 
 public class GeocodingLocationProcessTest extends BaseProcessTest {
 
@@ -29,7 +28,6 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 		assertThat(object).isInstanceOf(List.class);
 		var objects = (ArrayList<?>) object;
 		assertThat(objects).isNotEmpty();
-		Ivy.log().warn(objects.get(0).toString());
 		assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
 	}
 
