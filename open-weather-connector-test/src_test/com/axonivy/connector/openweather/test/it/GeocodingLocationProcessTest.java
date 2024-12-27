@@ -1,4 +1,4 @@
-package com.axonivy.connector.openweather.test;
+package com.axonivy.connector.openweather.test.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,36 +11,34 @@ import org.openweathermap.api.geo1_0.client.GeoLocation;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.error.BpmError;
+import ch.ivyteam.ivy.environment.Ivy;
 
 public class GeocodingLocationProcessTest extends BaseProcessTest {
 
-	private static final BpmProcess GEOCODING_LOCATION_PROCESS = BpmProcess.path("connector/GeocodingLocation");
-	private static final BpmElement GEOCODING_LOCATION_BY_NAME = GEOCODING_LOCATION_PROCESS
-			.elementName("getCoordinatesByLocationName(String,String,String,Integer)");
-	private static final BpmElement GEOCODING_LOCATION_BY_ZIP_CODE = GEOCODING_LOCATION_PROCESS
-			.elementName("getCoordinatesByZipCode(String,String)");
-	private static final BpmElement GEOCODING_LOCATION_REVERSE = GEOCODING_LOCATION_PROCESS
-			.elementName("reverse(Double,Double,Integer)");
+	private static final String GEOCODING_LOCATION_PROCESS_PATH = "connector/GeocodingLocation";
+	private static final String GEOCODING_LOCATION_BY_NAME_SIGNATURE = "getCoordinatesByLocationName(String,String,String,Integer)";
+	private static final String GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE = "getCoordinatesByZipCode(String,String)";
+	private static final String GEOCODING_LOCATION_REVERSE_SIGNATURE = "reverse(Double,Double,Integer)";
 
 	@Test
 	public void testGeocodingByName_ReturnsListOfGeoLocations(BpmClient bpmClient) throws NoSuchFieldException {
-		ExecutionResult result = bpmClient.start().subProcess(GEOCODING_LOCATION_BY_NAME).execute("New York",
-				StringUtils.EMPTY, StringUtils.EMPTY, 1);
+		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+				GEOCODING_LOCATION_BY_NAME_SIGNATURE).execute("London", StringUtils.EMPTY, StringUtils.EMPTY, 1);
 		var object = result.data().last().get("results");
 		assertThat(object).isInstanceOf(List.class);
 		var objects = (ArrayList<?>) object;
 		assertThat(objects).isNotEmpty();
+		Ivy.log().warn(objects.get(0).toString());
 		assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
 	}
 
 	@Test()
 	public void testGeocodingByName_ThrowsBpmException(BpmClient bpmClient) throws NoSuchFieldException {
 		try {
-			bpmClient.start().subProcess(GEOCODING_LOCATION_BY_NAME).execute(StringUtils.EMPTY, StringUtils.EMPTY,
-					StringUtils.EMPTY, 1);
+			getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+					GEOCODING_LOCATION_BY_NAME_SIGNATURE)
+					.execute(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, 1);
 		} catch (BpmError e) {
 			assertThat(e.getHttpStatusCode()).isEqualTo(400);
 		}
@@ -48,8 +46,8 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 
 	@Test
 	public void testGeocodingByZip_ReturnsGeoLocation(BpmClient bpmClient) throws NoSuchFieldException {
-		ExecutionResult result = bpmClient.start().subProcess(GEOCODING_LOCATION_BY_ZIP_CODE).execute("10001",
-				StringUtils.EMPTY);
+		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+				GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute("10001", StringUtils.EMPTY);
 		var object = result.data().last().get("result");
 		assertThat(object).isInstanceOf(GeoLocation.class);
 	}
@@ -57,7 +55,8 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 	@Test()
 	public void testGeocodingByZip_ThrowsBpmException(BpmClient bpmClient) throws NoSuchFieldException {
 		try {
-			bpmClient.start().subProcess(GEOCODING_LOCATION_BY_ZIP_CODE).execute(StringUtils.EMPTY, StringUtils.EMPTY);
+			getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+					GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute(StringUtils.EMPTY, StringUtils.EMPTY);
 		} catch (BpmError e) {
 			assertThat(e.getHttpStatusCode()).isEqualTo(400);
 		}
@@ -65,7 +64,8 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 
 	@Test
 	public void testReverse_ReturnsListOfGeoLocations(BpmClient bpmClient) throws NoSuchFieldException {
-		ExecutionResult result = bpmClient.start().subProcess(GEOCODING_LOCATION_REVERSE).execute(40.7484, -73.9967, 1);
+		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+				GEOCODING_LOCATION_REVERSE_SIGNATURE).execute(40.7484, -73.9967, 1);
 		var object = result.data().last().get("results");
 		assertThat(object).isInstanceOf(List.class);
 		var objects = (ArrayList<?>) object;
@@ -76,10 +76,10 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 	@Test()
 	public void testReverse_ThrowsBpmException(BpmClient bpmClient) throws NoSuchFieldException {
 		try {
-			bpmClient.start().subProcess(GEOCODING_LOCATION_REVERSE).execute(null, null, 1);
+			getSubProcessWithNameAndPath(bpmClient, GEOCODING_LOCATION_PROCESS_PATH,
+					GEOCODING_LOCATION_REVERSE_SIGNATURE).execute(null, null, 1);
 		} catch (BpmError e) {
 			assertThat(e.getHttpStatusCode()).isEqualTo(400);
 		}
 	}
-
 }
