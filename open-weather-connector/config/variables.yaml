@@ -2,10 +2,8 @@
 Variables:
   openWeatherConnector:
     # Open Weather Data endpoint
-    weatherDataUrl: 'https://api.openweathermap.org/data/2.5'
-    
+    weatherDataUrl: ""
     # Open Weather Geo endpoint
-    weatherGeoUrl: 'https://api.openweathermap.org/geo/1.0'
-    
+    weatherGeoUrl: ""
     # Your Open Weather connector Application Client ID
-    appId: ''
+    appId: ""
