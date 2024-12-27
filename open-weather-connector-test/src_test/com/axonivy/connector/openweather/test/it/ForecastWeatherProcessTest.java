@@ -3,6 +3,7 @@ package com.axonivy.connector.openweather.test.it;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.openweathermap.api.data2_5.client.Forecast;
 
@@ -19,8 +20,8 @@ public class ForecastWeatherProcessTest extends BaseProcessTest {
 	public void testGetForecastWeatherByGeoCode_ReturnsForecast(BpmClient bpmClient) throws NoSuchFieldException {
 		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GET_FORECAST_PROCESS_PATH,
 				GET_FORECAST_BY_GEOCODE_SIGNATURE)
-				.execute(40.7127281, -74.0060152, 1, StringUtils.EMPTY, StringUtils.EMPTY);
-		var object = result.data().last().get("result");
+				.execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1, StringUtils.EMPTY, StringUtils.EMPTY);
+		var object = result.data().last().get(RESULT_KEY);
 		assertThat(object).isInstanceOf(Forecast.class);
 	}
 
@@ -30,7 +31,7 @@ public class ForecastWeatherProcessTest extends BaseProcessTest {
 			getSubProcessWithNameAndPath(bpmClient, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
 					.execute(null, null, 1, StringUtils.EMPTY, StringUtils.EMPTY);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 }

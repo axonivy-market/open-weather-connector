@@ -24,6 +24,11 @@ public class BaseProcessTest {
 	private static final String LOCAL_CREDENTIALS_FILE_PATH = "credentials.properties";
 	private static final String WEATHER_DATA_REST_CLIENT_NAME = "WeatherData (Openweathermap weather API)";
 	private static final String GEO_DATA_REST_CLIENT_NAME = "GeocodingCoordinates (Openweathermap geocoding API)";
+	protected static final String RESULT_KEY = "result";
+	protected static final String RESULTS_KEY = "results";
+	protected static final Double TEST_LON_VALUE = 40.7484;
+	protected static final Double TEST_LAT_VALUE = -73.9967;
+	protected static final String TEST_ZIPCODE_VALUE = "10001";
 	private static String appId;
 	private static String weatherDataUrl;
 	private static String weatherGeoUrl;

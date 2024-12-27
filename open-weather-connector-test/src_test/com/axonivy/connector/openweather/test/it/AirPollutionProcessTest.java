@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.openweathermap.api.data2_5.client.AirPollution;
 
@@ -21,8 +22,8 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 	@Test
 	public void testGetAirPollutionByGeoCode_ReturnsAirPollution(BpmClient bpmClient) throws NoSuchFieldException {
 		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
-				GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(40.7127281, -74.0060152);
-		var object = result.data().last().get("result");
+				GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
+		var object = result.data().last().get(RESULT_KEY);
 		assertThat(object).isInstanceOf(AirPollution.class);
 	}
 
@@ -32,7 +33,7 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 			getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 
@@ -40,8 +41,8 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 	public void testGetForecastAirPollutionByGeoCode_ReturnsAirPollution(BpmClient bpmClient)
 			throws NoSuchFieldException {
 		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
-				GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(40.7127281, -74.0060152);
-		var object = result.data().last().get("result");
+				GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
+		var object = result.data().last().get(RESULT_KEY);
 		assertThat(object).isInstanceOf(AirPollution.class);
 	}
 
@@ -52,7 +53,7 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 			getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 
@@ -62,8 +63,9 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 		OffsetDateTime now = OffsetDateTime.now();
 		OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
 		ExecutionResult result = getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
-				GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(40.7127281, -74.0060152, now, twoDaysLater);
-		var object = result.data().last().get("result");
+				GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
+				.execute(TEST_LON_VALUE, TEST_LAT_VALUE, now, twoDaysLater);
+		var object = result.data().last().get(RESULT_KEY);
 		assertThat(object).isInstanceOf(AirPollution.class);
 	}
 
@@ -76,7 +78,7 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 			getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null, now, twoDaysLater);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 
@@ -88,9 +90,9 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 		try {
 			getSubProcessWithNameAndPath(bpmClient, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
-					.execute(40.7127281, -74.0060152, twoDaysLater, now);
+					.execute(TEST_LON_VALUE, TEST_LAT_VALUE, twoDaysLater, now);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 }
