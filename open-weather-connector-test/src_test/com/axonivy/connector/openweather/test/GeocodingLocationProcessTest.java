@@ -6,16 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openweathermap.api.geo1_0.client.GeoLocation;
+
+import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.error.BpmError;
+import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
-public class GeocodingLocationProcessTest extends BaseProcessTest {
+@IvyProcessTest(enableWebServer = true)
+public class GeocodingLocationProcessTest {
 
 	private static final BpmProcess GEOCODING_LOCATION_PROCESS = BpmProcess.path("connector/GeocodingLocation");
 	private static final BpmElement GEOCODING_LOCATION_BY_NAME = GEOCODING_LOCATION_PROCESS
@@ -24,6 +30,11 @@ public class GeocodingLocationProcessTest extends BaseProcessTest {
 			.elementName("getCoordinatesByZipCode(String,String)");
 	private static final BpmElement GEOCODING_LOCATION_REVERSE = GEOCODING_LOCATION_PROCESS
 			.elementName("reverse(Double,Double,Integer)");
+
+	@BeforeEach
+	void beforeEach(AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForMockServer(fixture);
+	}
 
 	@Test
 	public void testGeocodingByName_ReturnsListOfGeoLocations(BpmClient bpmClient) throws NoSuchFieldException {
