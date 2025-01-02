@@ -5,16 +5,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openweathermap.api.data2_5.client.AirPollution;
+
+import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.error.BpmError;
+import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
-public class AirPollutionProcessTest extends BaseProcessTest {
+@IvyProcessTest(enableWebServer = true)
+public class AirPollutionProcessTest {
 	private static final BpmProcess GET_AIR_POLLUTION_PROCESS = BpmProcess.path("connector/AirPollution");
 	private static final BpmElement GET_AIR_POLLUTION_BY_GEOCODE = GET_AIR_POLLUTION_PROCESS
 			.elementName("getCurrentAirPollution(Double,Double)");
@@ -22,6 +28,11 @@ public class AirPollutionProcessTest extends BaseProcessTest {
 			.elementName("getForecastAirPollution(Double,Double)");
 	private static final BpmElement GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE = GET_AIR_POLLUTION_PROCESS
 			.elementName("getHistoricalAirPollution(Double,Double,OffsetDateTime,OffsetDateTime)");
+
+	@BeforeEach
+	void beforeEach(AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForMockServer(fixture);
+	}
 
 	@Test
 	public void testGetAirPollutionByGeoCode_ReturnsAirPollution(BpmClient bpmClient) throws NoSuchFieldException {
