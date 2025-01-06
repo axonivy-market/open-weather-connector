@@ -1,6 +1,7 @@
 package com.axonivy.connector.openweather.test.utils;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,8 +44,8 @@ public class OpenWeatherUtils {
   public static void setUpConfigForMockServer(ExtensionContext context) {
     AppFixture fixture = AppFixtureJu5Context.get(context).getFixture();
     // Disable OAuth feature for mock rest service
-    fixture.config(REST_CLIENT_PREFIX + WEATHER_DATA_REST_CLIENT_NAME + FEATURE_SUFFIX, JSON_FEATURES);
-    fixture.config(REST_CLIENT_PREFIX + GEO_DATA_REST_CLIENT_NAME + FEATURE_SUFFIX, JSON_FEATURES);
+    fixture.config(REST_CLIENT_PREFIX + WEATHER_DATA_REST_CLIENT_NAME + FEATURE_SUFFIX, List.of(JSON_FEATURES));
+    fixture.config(REST_CLIENT_PREFIX + GEO_DATA_REST_CLIENT_NAME + FEATURE_SUFFIX, List.of(JSON_FEATURES));
     fixture.var(OPEN_WEATHER_CONNECTOR_PREFIX + WEATHER_DATA_URL_KEY, WEATHER_DATA_MOCK_ENDPOINT);
     fixture.var(OPEN_WEATHER_CONNECTOR_PREFIX + WEATHER_GEO_URL_KEY, WEATHER_GEO_MOCK_ENDPOINT);
   }
@@ -65,7 +66,7 @@ public class OpenWeatherUtils {
   private static void setupClientWithNameAndUrl(RestClients clients, String clientName, String clientDefaultUri,
       String appIdValue) {
     RestClient client = clients.find(clientName);
-    Ivy.log().warn("client == null: "+client == null);
+    System.out.println("client == null: "+client == null);
     client = client.toBuilder().uri(clientDefaultUri).property(APP_ID_PROP_KEY, appIdValue).toRestClient();
     clients.set(client);
   }
