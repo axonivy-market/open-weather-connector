@@ -1,8 +1,16 @@
 package com.axonivy.connector.openweather.test;
 
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_BY_NAME_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_PROCESS_PATH;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_REVERSE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULTS_KEY;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULT_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,17 +18,13 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openweathermap.api.geo1_0.client.GeoLocation;
+
 import com.axonivy.connector.openweather.test.context.CustomInvocationContextProvider;
 import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
+
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_PROCESS_PATH;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_BY_NAME_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GEOCODING_LOCATION_REVERSE_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULT_KEY;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULTS_KEY;
 
 @IvyProcessTest(enableWebServer = true)
 @ExtendWith(CustomInvocationContextProvider.class)

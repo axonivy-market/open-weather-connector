@@ -2,9 +2,12 @@ package com.axonivy.connector.openweather.test.utils;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
 import com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants;
+
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecContext;

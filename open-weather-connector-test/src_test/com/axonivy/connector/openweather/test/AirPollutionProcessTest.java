@@ -1,27 +1,29 @@
 package com.axonivy.connector.openweather.test;
 
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_AIR_POLLUTION_PROCESS_PATH;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULT_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openweathermap.api.data2_5.client.AirPollution;
+
 import com.axonivy.connector.openweather.test.context.CustomInvocationContextProvider;
 import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
+
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 import ch.ivyteam.ivy.environment.Ivy;
-
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_AIR_POLLUTION_PROCESS_PATH;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE;
-import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULT_KEY;
 
 @IvyProcessTest(enableWebServer = true)
 @ExtendWith(CustomInvocationContextProvider.class)
