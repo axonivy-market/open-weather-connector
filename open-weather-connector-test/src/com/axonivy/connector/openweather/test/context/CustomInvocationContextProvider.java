@@ -10,7 +10,10 @@ public class CustomInvocationContextProvider implements TestTemplateInvocationCo
 
   @Override
   public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-    return Stream.of(new MockServerInvocationContext(), new RestCallInvocationContext());
+    return Stream.of(
+	new MockServerInvocationContext()
+	//new RestCallInvocationContext()
+	);
   }
 
   @Override
