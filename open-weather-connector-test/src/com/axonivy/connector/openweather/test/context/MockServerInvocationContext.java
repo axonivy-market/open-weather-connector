@@ -20,7 +20,8 @@ public class MockServerInvocationContext implements TestTemplateInvocationContex
 
   @Override
   public List<Extension> getAdditionalExtensions() {
-    return Collections.singletonList(new ParameterResolver() {
+    return Collections.singletonList(
+    		new ParameterResolver() {
 
       @Override
       public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
@@ -31,7 +32,7 @@ public class MockServerInvocationContext implements TestTemplateInvocationContex
       @Override
       public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
           throws ParameterResolutionException {
-        return true;
+    	 return ExtensionContext.class == parameterContext.getParameter().getType();
       }
     });
   }

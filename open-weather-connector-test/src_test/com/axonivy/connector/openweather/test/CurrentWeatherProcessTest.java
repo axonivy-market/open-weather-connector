@@ -16,6 +16,7 @@ import org.openweathermap.api.data2_5.client.Current;
 import com.axonivy.connector.openweather.test.context.CustomInvocationContextProvider;
 import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
+import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
@@ -33,7 +34,7 @@ public class CurrentWeatherProcessTest {
   }
 
   @TestTemplate
-  public void testGetCurrentWeatherByGeoCode_ReturnsCurrentWeather() throws NoSuchFieldException {
+  public void testGetCurrentWeatherByGeoCode_ReturnsCurrentWeather(BpmClient c) throws NoSuchFieldException {
     ExecutionResult result = OpenWeatherUtils
         .getSubProcessWithNameAndPath(GET_CURRENT_WEATHER_PROCESS_PATH, GET_CURRENT_WEATHER_BY_GEOCODE_SIGNATURE)
         .execute(TEST_LON_VALUE, TEST_LAT_VALUE, StringUtils.EMPTY, StringUtils.EMPTY);
