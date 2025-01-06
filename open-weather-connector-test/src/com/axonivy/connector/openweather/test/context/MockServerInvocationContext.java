@@ -30,8 +30,8 @@ public class MockServerInvocationContext implements TestTemplateInvocationContex
 
       @Override
       public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
-          throws ParameterResolutionException {
-        return true;
+          throws ParameterResolutionException {     	 
+    	  return ExtensionContext.class == parameterContext.getParameter().getType();
       }
     });
   }

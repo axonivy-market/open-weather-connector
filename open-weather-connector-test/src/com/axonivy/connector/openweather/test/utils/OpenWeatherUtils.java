@@ -11,7 +11,6 @@ import com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstant
 
 import ch.ivyteam.ivy.application.IApplication;
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
-import ch.ivyteam.ivy.bpm.engine.client.ExecContext;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubRequestBuilder;
 import ch.ivyteam.ivy.environment.AppFixture;
@@ -34,11 +33,6 @@ public class OpenWeatherUtils {
   private static final String GEO_DATA_REST_CLIENT_NAME = "GeocodingCoordinates (Openweathermap geocoding API)";
   private static final String WEATHER_DATA_MOCK_ENDPOINT = "{ivy.app.baseurl}/api/weatherDataMock";
   private static final String WEATHER_GEO_MOCK_ENDPOINT = "{ivy.app.baseurl}/api/weatherGeoMock";
-  private static BpmClient testClient = new BpmClient(new ExecContext(IApplication.current()));
-
-  public static BpmClient getTestBpmClient() {
-    return testClient;
-  }
 
   @SuppressWarnings("restriction")
   public static void setUpConfigForMockServer(ExtensionContext context) {
@@ -97,7 +91,7 @@ public class OpenWeatherUtils {
     setupClientWithNameAndUrl(clients, GEO_DATA_REST_CLIENT_NAME, weatherGeoUrl, appId);
   }
 
-  public static SubRequestBuilder getSubProcessWithNameAndPath(String subProcessPath, String subProcessName) {
-    return testClient.start().subProcess(BpmProcess.path(subProcessPath).elementName(subProcessName));
+  public static SubRequestBuilder getSubProcessWithNameAndPath(BpmClient client,String subProcessPath, String subProcessName) {
+    return client.start().subProcess(BpmProcess.path(subProcessPath).elementName(subProcessName));
   }
 }

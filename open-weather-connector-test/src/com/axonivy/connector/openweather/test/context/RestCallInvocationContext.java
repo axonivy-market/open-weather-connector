@@ -39,7 +39,7 @@ public class RestCallInvocationContext implements TestTemplateInvocationContext 
       @Override
       public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
           throws ParameterResolutionException {
-        return true;
+        return ExtensionContext.class == parameterContext.getParameter().getType();
       }
     });
   }

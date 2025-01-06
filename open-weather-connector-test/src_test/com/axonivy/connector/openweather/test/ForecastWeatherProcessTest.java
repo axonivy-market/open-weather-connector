@@ -16,6 +16,7 @@ import org.openweathermap.api.data2_5.client.Forecast;
 import com.axonivy.connector.openweather.test.context.CustomInvocationContextProvider;
 import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
+import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
@@ -32,18 +33,18 @@ public class ForecastWeatherProcessTest {
   }
 
   @TestTemplate
-  public void testGetForecastWeatherByGeoCode_ReturnsForecast() throws NoSuchFieldException {
+  public void testGetForecastWeatherByGeoCode_ReturnsForecast(BpmClient client) throws NoSuchFieldException {
     ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
+        .getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
         .execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1, StringUtils.EMPTY, StringUtils.EMPTY);
     var object = result.data().last().get(RESULT_KEY);
     assertThat(object).isInstanceOf(Forecast.class);
   }
 
   @TestTemplate
-  public void testGetForecastByGeoCode_ThrowsBpmException() throws NoSuchFieldException {
+  public void testGetForecastByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
     try {
-      OpenWeatherUtils.getSubProcessWithNameAndPath(GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
+      OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
           .execute(null, null, 1, StringUtils.EMPTY, StringUtils.EMPTY);
     } catch (BpmError e) {
       assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
