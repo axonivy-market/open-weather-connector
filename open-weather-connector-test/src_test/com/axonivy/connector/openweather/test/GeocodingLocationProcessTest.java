@@ -19,24 +19,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openweathermap.api.geo1_0.client.GeoLocation;
 
-import com.axonivy.connector.openweather.test.context.CustomInvocationContextProvider;
+import com.axonivy.connector.openweather.test.context.MultiEnvironmentContextProvider;
 import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
 import ch.ivyteam.ivy.bpm.error.BpmError;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
 @IvyProcessTest(enableWebServer = true)
-@ExtendWith(CustomInvocationContextProvider.class)
+@ExtendWith(MultiEnvironmentContextProvider.class)
 public class GeocodingLocationProcessTest {
   private final Double TEST_LON_VALUE = 40.7484;
   private final Double TEST_LAT_VALUE = -73.9967;
   private final String TEST_ZIPCODE_VALUE = "10001";
 
   @BeforeEach
-  void beforeEach(ExtensionContext context) {
-    OpenWeatherUtils.setUpConfigForContext(context);
+  void beforeEach(ExtensionContext context, AppFixture fixture) {
+    OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
   }
 
   @TestTemplate
@@ -74,9 +75,8 @@ public class GeocodingLocationProcessTest {
   @TestTemplate
   public void testGeocodingByZip_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
     try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE)
-          .execute(StringUtils.EMPTY, StringUtils.EMPTY);
+      OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+          GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute(StringUtils.EMPTY, StringUtils.EMPTY);
     } catch (BpmError e) {
       assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
     }
