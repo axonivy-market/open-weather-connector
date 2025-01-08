@@ -10,14 +10,14 @@ import com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstant
 
 public class MultiEnvironmentContextProvider implements TestTemplateInvocationContextProvider {
 
-  @Override
-  public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-    return Stream.of(new TestEnironmentInvocationContext(OpenWeatherCommonConstants.REAL_CALL_CONTEXT_DISPLAY_NAME),
-        new TestEnironmentInvocationContext(OpenWeatherCommonConstants.MOCK_SERVER_CONTEXT_DISPLAY_NAME));
-  }
+	@Override
+	public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
+		return Stream.of(new TestEnironmentInvocationContext(OpenWeatherCommonConstants.REAL_CALL_CONTEXT_DISPLAY_NAME),
+				new TestEnironmentInvocationContext(OpenWeatherCommonConstants.MOCK_SERVER_CONTEXT_DISPLAY_NAME));
+	}
 
-  @Override
-  public boolean supportsTestTemplate(ExtensionContext context) {
-    return true;
-  }
+	@Override
+	public boolean supportsTestTemplate(ExtensionContext context) {
+		return true;
+	}
 }

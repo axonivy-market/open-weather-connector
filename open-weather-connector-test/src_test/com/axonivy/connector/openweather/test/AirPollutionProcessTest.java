@@ -29,89 +29,87 @@ import ch.ivyteam.ivy.environment.AppFixture;
 @IvyProcessTest(enableWebServer = true)
 @ExtendWith(MultiEnvironmentContextProvider.class)
 public class AirPollutionProcessTest {
-  private final Double TEST_LON_VALUE = 40.7484;
-  private final Double TEST_LAT_VALUE = -73.9967;
+	private final Double TEST_LON_VALUE = 40.7484;
+	private final Double TEST_LAT_VALUE = -73.9967;
 
-  @BeforeEach
-  void beforeEach(ExtensionContext context, AppFixture fixture) {
-    OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
-  }
+	@BeforeEach
+	void beforeEach(ExtensionContext context, AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
+	}
 
-  @TestTemplate
-  void testGetAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH, GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
-        .execute(TEST_LON_VALUE, TEST_LAT_VALUE);
-    var object = result.data().last().get(RESULT_KEY);
-    assertThat(object).isInstanceOf(AirPollution.class);
-  }
+	@TestTemplate
+	void testGetAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+				GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
+		var object = result.data().last().get(RESULT_KEY);
+		assertThat(object).isInstanceOf(AirPollution.class);
+	}
 
-  @TestTemplate
-  void testGetAirPollutionByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH, GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
-          .execute(null, null);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	void testGetAirPollutionByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+					GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 
-  @TestTemplate
-  void testGetForecastAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
-        GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
-    var object = result.data().last().get(RESULT_KEY);
-    assertThat(object).isInstanceOf(AirPollution.class);
-  }
+	@TestTemplate
+	void testGetForecastAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+				GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
+		var object = result.data().last().get(RESULT_KEY);
+		assertThat(object).isInstanceOf(AirPollution.class);
+	}
 
-  @TestTemplate
-  void testGetForecastAirPollutionByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
-          GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	void testGetForecastAirPollutionByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+					GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 
-  @TestTemplate
-  void testGetHistoricalAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
-    OffsetDateTime now = OffsetDateTime.now();
-    OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
-            GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
-        .execute(TEST_LON_VALUE, TEST_LAT_VALUE, now, twoDaysLater);
-    var object = result.data().last().get(RESULT_KEY);
-    assertThat(object).isInstanceOf(AirPollution.class);
-  }
+	@TestTemplate
+	void testGetHistoricalAirPollutionByGeoCode_ReturnsAirPollution(BpmClient client) throws NoSuchFieldException {
+		OffsetDateTime now = OffsetDateTime.now();
+		OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
+		ExecutionResult result = OpenWeatherUtils
+				.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+						GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
+				.execute(TEST_LON_VALUE, TEST_LAT_VALUE, now, twoDaysLater);
+		var object = result.data().last().get(RESULT_KEY);
+		assertThat(object).isInstanceOf(AirPollution.class);
+	}
 
-  @TestTemplate
-  void testGetHistoricalAirPollutionByGeoCode_ThrowsBpmExceptionCanNotGeo(BpmClient client)
-      throws NoSuchFieldException {
-    OffsetDateTime now = OffsetDateTime.now();
-    OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
-    try {
-      OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
-          GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null, now, twoDaysLater);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	void testGetHistoricalAirPollutionByGeoCode_ThrowsBpmExceptionCanNotGeo(BpmClient client)
+			throws NoSuchFieldException {
+		OffsetDateTime now = OffsetDateTime.now();
+		OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
+		try {
+			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+					GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null, now, twoDaysLater);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 
-  @TestTemplate
-  void testGetHistoricalAirPollutionByGeoCode_ThrowsBpmExceptionStartMoreThanEnd(BpmClient client)
-      throws NoSuchFieldException {
-    OffsetDateTime now = OffsetDateTime.now();
-    OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
-    try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
-              GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
-          .execute(TEST_LON_VALUE, TEST_LAT_VALUE, twoDaysLater, now);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	void testGetHistoricalAirPollutionByGeoCode_ThrowsBpmExceptionStartMoreThanEnd(BpmClient client)
+			throws NoSuchFieldException {
+		OffsetDateTime now = OffsetDateTime.now();
+		OffsetDateTime twoDaysLater = now.plus(Duration.ofDays(2));
+		try {
+			OpenWeatherUtils
+					.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
+							GET_HISTORICAL_AIR_POLLUTION_BY_GEOCODE_SIGNATURE)
+					.execute(TEST_LON_VALUE, TEST_LAT_VALUE, twoDaysLater, now);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 }

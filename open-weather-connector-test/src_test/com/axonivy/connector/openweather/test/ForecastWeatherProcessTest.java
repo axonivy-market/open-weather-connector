@@ -25,31 +25,31 @@ import ch.ivyteam.ivy.environment.AppFixture;
 @IvyProcessTest(enableWebServer = true)
 @ExtendWith(MultiEnvironmentContextProvider.class)
 public class ForecastWeatherProcessTest {
-  private final Double TEST_LON_VALUE = 40.7484;
-  private final Double TEST_LAT_VALUE = -73.9967;
+	private final Double TEST_LON_VALUE = 40.7484;
+	private final Double TEST_LAT_VALUE = -73.9967;
 
-  @BeforeEach
-  void beforeEach(ExtensionContext context, AppFixture fixture) {
-    OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
-  }
+	@BeforeEach
+	void beforeEach(ExtensionContext context, AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
+	}
 
-  @TestTemplate
-  public void testGetForecastWeatherByGeoCode_ReturnsForecast(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
-        .execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1, StringUtils.EMPTY, StringUtils.EMPTY);
-    var object = result.data().last().get(RESULT_KEY);
-    assertThat(object).isInstanceOf(Forecast.class);
-  }
+	@TestTemplate
+	public void testGetForecastWeatherByGeoCode_ReturnsForecast(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils
+				.getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
+				.execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1, StringUtils.EMPTY, StringUtils.EMPTY);
+		var object = result.data().last().get(RESULT_KEY);
+		assertThat(object).isInstanceOf(Forecast.class);
+	}
 
-  @TestTemplate
-  public void testGetForecastByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
-          .execute(null, null, 1, StringUtils.EMPTY, StringUtils.EMPTY);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	public void testGetForecastByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils
+					.getSubProcessWithNameAndPath(client, GET_FORECAST_PROCESS_PATH, GET_FORECAST_BY_GEOCODE_SIGNATURE)
+					.execute(null, null, 1, StringUtils.EMPTY, StringUtils.EMPTY);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 }

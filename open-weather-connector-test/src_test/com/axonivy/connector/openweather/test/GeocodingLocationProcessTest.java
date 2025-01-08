@@ -31,77 +31,76 @@ import ch.ivyteam.ivy.environment.AppFixture;
 @IvyProcessTest(enableWebServer = true)
 @ExtendWith(MultiEnvironmentContextProvider.class)
 public class GeocodingLocationProcessTest {
-  private final Double TEST_LON_VALUE = 40.7484;
-  private final Double TEST_LAT_VALUE = -73.9967;
-  private final String TEST_ZIPCODE_VALUE = "10001";
+	private final Double TEST_LON_VALUE = 40.7484;
+	private final Double TEST_LAT_VALUE = -73.9967;
+	private final String TEST_ZIPCODE_VALUE = "10001";
 
-  @BeforeEach
-  void beforeEach(ExtensionContext context, AppFixture fixture) {
-    OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
-  }
+	@BeforeEach
+	void beforeEach(ExtensionContext context, AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
+	}
 
-  @TestTemplate
-  public void testGeocodingByName_ReturnsListOfGeoLocations(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_BY_NAME_SIGNATURE)
-        .execute("London", StringUtils.EMPTY, StringUtils.EMPTY, 1);
-    var object = result.data().last().get(RESULTS_KEY);
-    assertThat(object).isInstanceOf(List.class);
-    var objects = (ArrayList<?>) object;
-    assertThat(objects).isNotEmpty();
-    assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
-  }
+	@TestTemplate
+	public void testGeocodingByName_ReturnsListOfGeoLocations(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils
+				.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+						GEOCODING_LOCATION_BY_NAME_SIGNATURE)
+				.execute("London", StringUtils.EMPTY, StringUtils.EMPTY, 1);
+		var object = result.data().last().get(RESULTS_KEY);
+		assertThat(object).isInstanceOf(List.class);
+		var objects = (ArrayList<?>) object;
+		assertThat(objects).isNotEmpty();
+		assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
+	}
 
-  @TestTemplate
-  public void testGeocodingByName_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_BY_NAME_SIGNATURE)
-          .execute(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, 1);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	public void testGeocodingByName_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils
+					.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+							GEOCODING_LOCATION_BY_NAME_SIGNATURE)
+					.execute(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, 1);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 
-  @TestTemplate
-  public void testGeocodingByZip_ReturnsGeoLocation(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE)
-        .execute(TEST_ZIPCODE_VALUE, StringUtils.EMPTY);
-    var object = result.data().last().get(RESULT_KEY);
-    assertThat(object).isInstanceOf(GeoLocation.class);
-  }
+	@TestTemplate
+	public void testGeocodingByZip_ReturnsGeoLocation(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+				GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute(TEST_ZIPCODE_VALUE, StringUtils.EMPTY);
+		var object = result.data().last().get(RESULT_KEY);
+		assertThat(object).isInstanceOf(GeoLocation.class);
+	}
 
-  @TestTemplate
-  public void testGeocodingByZip_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
-          GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute(StringUtils.EMPTY, StringUtils.EMPTY);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	public void testGeocodingByZip_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+					GEOCODING_LOCATION_BY_ZIP_CODE_SIGNATURE).execute(StringUtils.EMPTY, StringUtils.EMPTY);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 
-  @TestTemplate
-  public void testReverse_ReturnsListOfGeoLocations(BpmClient client) throws NoSuchFieldException {
-    ExecutionResult result = OpenWeatherUtils
-        .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_REVERSE_SIGNATURE)
-        .execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1);
-    var object = result.data().last().get(RESULTS_KEY);
-    assertThat(object).isInstanceOf(List.class);
-    var objects = (ArrayList<?>) object;
-    assertThat(objects).isNotEmpty();
-    assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
-  }
+	@TestTemplate
+	public void testReverse_ReturnsListOfGeoLocations(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+				GEOCODING_LOCATION_REVERSE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE, 1);
+		var object = result.data().last().get(RESULTS_KEY);
+		assertThat(object).isInstanceOf(List.class);
+		var objects = (ArrayList<?>) object;
+		assertThat(objects).isNotEmpty();
+		assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
+	}
 
-  @TestTemplate
-  public void testReverse_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
-    try {
-      OpenWeatherUtils
-          .getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH, GEOCODING_LOCATION_REVERSE_SIGNATURE)
-          .execute(null, null, 1);
-    } catch (BpmError e) {
-      assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
-    }
-  }
+	@TestTemplate
+	public void testReverse_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
+		try {
+			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GEOCODING_LOCATION_PROCESS_PATH,
+					GEOCODING_LOCATION_REVERSE_SIGNATURE).execute(null, null, 1);
+		} catch (BpmError e) {
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+		}
+	}
 }
