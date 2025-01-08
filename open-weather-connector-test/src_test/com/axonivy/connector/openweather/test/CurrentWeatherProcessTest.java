@@ -1,38 +1,58 @@
 package com.axonivy.connector.openweather.test;
 
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_CURRENT_WEATHER_BY_GEOCODE_SIGNATURE;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.GET_CURRENT_WEATHER_PROCESS_PATH;
+import static com.axonivy.connector.openweather.test.constant.OpenWeatherCommonConstants.RESULT_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openweathermap.api.data2_5.client.Current;
+
+import com.axonivy.connector.openweather.test.context.MultiEnvironmentContextProvider;
+import com.axonivy.connector.openweather.test.utils.OpenWeatherUtils;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.ExecutionResult;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.error.BpmError;
+import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
-public class CurrentWeatherProcessTest extends BaseProcessTest {
-	private static final BpmProcess GET_CURRENT_WEATHER_PROCESS = BpmProcess.path("connector/CurrentWeather");
-	private static final BpmElement GET_CURRENT_WEATHER_BY_GEOCODE = GET_CURRENT_WEATHER_PROCESS
-			.elementName("getCurrentWeather(Double,Double,String,String)");
+@IvyProcessTest(enableWebServer = true)
+@ExtendWith(MultiEnvironmentContextProvider.class)
+public class CurrentWeatherProcessTest {
 
-	@Test
-	public void testGetCurrentWeatherByGeoCode_ReturnsCurrentWeather(BpmClient bpmClient)
-			throws NoSuchFieldException {
-		ExecutionResult result = bpmClient.start().subProcess(GET_CURRENT_WEATHER_BY_GEOCODE).execute(40.7127281,
-				-74.0060152, StringUtils.EMPTY, StringUtils.EMPTY);
-		var object = result.data().last().get("result");
+	private final Double TEST_LON_VALUE = 40.7484;
+	private final Double TEST_LAT_VALUE = -73.9967;
+
+	@BeforeEach
+	void beforeEach(ExtensionContext context, AppFixture fixture) {
+		OpenWeatherUtils.setUpConfigForContext(context.getDisplayName(), fixture);
+	}
+
+	@TestTemplate
+	public void testGetCurrentWeatherByGeoCode_ReturnsCurrentWeather(BpmClient client) throws NoSuchFieldException {
+		ExecutionResult result = OpenWeatherUtils
+				.getSubProcessWithNameAndPath(client, GET_CURRENT_WEATHER_PROCESS_PATH,
+						GET_CURRENT_WEATHER_BY_GEOCODE_SIGNATURE)
+				.execute(TEST_LON_VALUE, TEST_LAT_VALUE, StringUtils.EMPTY, StringUtils.EMPTY);
+		var object = result.data().last().get(RESULT_KEY);
 		assertThat(object).isInstanceOf(Current.class);
 	}
 
-	@Test()
-	public void testGetCurrentWeatherByGeoCode_ThrowsBpmException(BpmClient bpmClient) throws NoSuchFieldException {
+	@TestTemplate
+	public void testGetCurrentWeatherByGeoCode_ThrowsBpmException(BpmClient client) throws NoSuchFieldException {
 		try {
-			bpmClient.start().subProcess(GET_CURRENT_WEATHER_BY_GEOCODE).execute(null, null, StringUtils.EMPTY,
-					StringUtils.EMPTY);
+			OpenWeatherUtils
+					.getSubProcessWithNameAndPath(client, GET_CURRENT_WEATHER_PROCESS_PATH,
+							GET_CURRENT_WEATHER_BY_GEOCODE_SIGNATURE)
+					.execute(null, null, StringUtils.EMPTY, StringUtils.EMPTY);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(400);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 }
