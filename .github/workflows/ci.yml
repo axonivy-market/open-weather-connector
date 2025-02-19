@@ -27,10 +27,12 @@ jobs:
       run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
 
     - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
+      uses: dorny/test-reporter@v1
       if: always()
       with:
-        junit_files: |
+        reporter: java-junit
+        fail-on-error: false
+        path: |
           */target/*-reports/*.xml
           !*/target/*-reports/failsafe-summary.xml
 
