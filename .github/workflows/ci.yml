@@ -32,9 +32,7 @@ jobs:
       with:
         name: JUnit Tests
         reporter: java-junit
-        path: |
-          */target/*-reports/*.xml
-          !*/target/*-reports/failsafe-summary.xml
+        path: '**/target/*-reports/*.xml'
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
