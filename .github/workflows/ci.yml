@@ -1,6 +1,9 @@
 name: CI-Build
 
-on: 
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
   workflow_call:
     inputs:
       javaVersion:
