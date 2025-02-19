@@ -30,6 +30,7 @@ jobs:
       uses: dorny/test-reporter@v1
       if: always()
       with:
+        name: JUnit Tests
         reporter: java-junit
         fail-on-error: false
         path: |
