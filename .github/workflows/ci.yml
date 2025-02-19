@@ -32,7 +32,6 @@ jobs:
       with:
         name: JUnit Tests
         reporter: java-junit
-        fail-on-error: false
         path: |
           */target/*-reports/*.xml
           !*/target/*-reports/failsafe-summary.xml
