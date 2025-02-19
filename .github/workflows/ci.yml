@@ -4,14 +4,6 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      javaVersion:
-        type: number
-        default: 21
-      mvnVersion:
-        type: string
-        default: 3.9.8
 
 jobs:
   build:
@@ -23,13 +15,13 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.javaVersion }}
+        java-version: 21
         distribution: temurin
 
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: ${{ inputs.mvnVersion }}
+        maven-version: 3.9.8
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
