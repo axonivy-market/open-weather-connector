@@ -27,18 +27,12 @@ jobs:
       run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
 
     - name: Publish Unit Test Results
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1.9.1
       if: always()
       with:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
-        list-suites: none
-        list-tests: all
-        max-test-results: 50
-        job-summary: true
-        fail-on-error: true
-        group-by: classname
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
