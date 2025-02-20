@@ -27,18 +27,19 @@ jobs:
       run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
 
     - name: Publish Unit Test Results
+      id: test_report
       uses: dorny/test-reporter@v1.9.1
       if: always()
       with:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
-        only-summary: true
+        job-summary: true
 
     - name: "Convert Summary to HTML"
       run: |
         sudo apt-get install -y pandoc
-        pandoc $GITHUB_STEP_SUMMARY -o job-summary.html
+        pandoc ${{ steps.test_report.output.summary }} -o job-summary.html
 
     - name: "Upload Summary as HTML"
       uses: actions/upload-artifact@v4
