@@ -34,6 +34,17 @@ jobs:
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
 
+    - name: Convert XML to HTML
+      run: |
+        pip install junit2html
+        junit2html '**/target/*-reports/*.xml' TEST-Report.html
+
+    - name: Upload HTML Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: html-test-report
+        path: TEST-Report.html
+
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
       with:
