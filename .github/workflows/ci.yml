@@ -34,12 +34,19 @@ jobs:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
+        job-summary: true
 
-    - name: "Convert Summary to HTML"
+    - name: Show JSON Output of Summary
       run: |
-        sudo apt-get install -y pandoc
-        echo ${{ steps.test_report.output.summary }}
-        pandoc ${{ steps.test_report.output.summary }} -o job-summary.html
+        echo "Test Summary: ${{ steps.test_report.output.summary }}"
+
+    - name: Show JSON Output of Failed Tests
+      run: |
+        echo "Failed Tests: ${{ steps.test_report.outputs.failed-tests }}"
+
+    - name: Show JSON Output of Test Summary
+      run: |
+        echo "Test Summary: ${{ steps.test_report.outputs.test-summary }}"
 
     - name: "Upload Summary as HTML"
       uses: actions/upload-artifact@v4
