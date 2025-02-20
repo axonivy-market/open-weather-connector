@@ -40,7 +40,7 @@ jobs:
         junit2html '**/target/*-reports/*.xml' TEST-Report.html
 
     - name: Upload HTML Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: html-test-report
         path: TEST-Report.html
