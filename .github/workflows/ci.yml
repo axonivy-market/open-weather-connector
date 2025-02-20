@@ -34,11 +34,11 @@ jobs:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
-        job-summary: true
 
     - name: "Convert Summary to HTML"
       run: |
         sudo apt-get install -y pandoc
+        echo ${{ steps.test_report.output.summary }}
         pandoc ${{ steps.test_report.output.summary }} -o job-summary.html
 
     - name: "Upload Summary as HTML"
