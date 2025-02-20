@@ -37,7 +37,7 @@ jobs:
 
     - name: Show JSON Output of Summary
       run: |
-        echo "Test Summary: ${{ steps.test_report.outputs }}"
+        echo "Test Summary: ${{ steps.test_report.outputs.output.summary }}"
 
     - name: Show JSON Output of Failed Tests
       run: |
