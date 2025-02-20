@@ -33,6 +33,21 @@ jobs:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
+        job-summary: true
+
+    - name: Add Markdown to Summary
+      run: echo "## Test Report Summary" >> "JUnit Tests"
+
+    - name: "Convert Summary to HTML"
+      run: |
+        sudo apt-get install -y pandoc
+        pandoc "JUnit Tests" -o job-summary.html
+
+    - name: "Upload Summary as HTML"
+      uses: actions/upload-artifact@v4
+      with:
+        name: job-summary
+        path: job-summary.html
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
