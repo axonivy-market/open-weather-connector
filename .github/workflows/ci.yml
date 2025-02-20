@@ -30,7 +30,6 @@ jobs:
       uses: dorny/test-reporter@v1.9.1
       if: always()
       with:
-        artifact: 'test-result'
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
