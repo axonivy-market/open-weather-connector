@@ -33,12 +33,12 @@ jobs:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
-        list-suites: all
+        list-suites: none
         list-tests: all
         max-test-results: 50
         job-summary: true
         fail-on-error: true
-        group-by: name
+        group-by: classname
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
