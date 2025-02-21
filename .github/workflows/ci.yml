@@ -34,6 +34,7 @@ jobs:
         name: JUnit Tests
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
+        output: test-results.json
 
     - name: Show JSON Output of Summary
       run: |
