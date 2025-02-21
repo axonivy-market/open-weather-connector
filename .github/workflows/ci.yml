@@ -38,7 +38,7 @@ jobs:
     - name: Export test report to json file
       run: |
         response=$(curl ${{ steps.test_report.outputs.url }})
-        echo $response > */target/test_report.json
+        echo $response > test_report.json
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
@@ -57,4 +57,4 @@ jobs:
           */target/testEngineOut.log
           */target/selenide/*
           */target/ivyEngine/deploy/*/*.deploymentLog
-          */target/test_report.json
+          test_report.json
