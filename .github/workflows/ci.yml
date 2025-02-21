@@ -3,58 +3,12 @@ name: CI-Build
 on:
   push:
   pull_request:
+  schedule:
+    - cron:  '21 21 * * *'
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Java JDK
-      uses: actions/setup-java@v4
-      with:
-        java-version: 21
-        distribution: temurin
-
-    - name: Setup Maven
-      uses: stCarolas/setup-maven@v5
-      with:
-        maven-version: 3.9.8
-
-    - name: Build with Maven
-      run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
-
-    - name: Publish Unit Test Results
-      id: test_report
-      uses: dorny/test-reporter@v1.9.1
-      if: always()
-      with:
-        name: JUnit Tests
-        reporter: java-junit
-        path: '**/target/*-reports/*.xml'
-
-    - name: Export test report to json file
-      run: |
-        response=$(curl ${{ steps.test_report.outputs.url }})
-        echo $response > test_report.json
-
-    - name: Archive build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        path: |
-          */target/*.iar
-          */target/*-[0-9]*.jar
-          *product/target/*.zip
-
-    - name: Archive test reports
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-reports
-        retention-days: 5
-        path: |
-          */target/testEngineOut.log
-          */target/selenide/*
-          */target/ivyEngine/deploy/*/*.deploymentLog
-          test_report.json
+    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@feature/MARP-1982-Adapt-CI-Build-for-MultiEnvironment
+    secrets:
+      mvnArgs: -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
