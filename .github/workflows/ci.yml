@@ -41,7 +41,6 @@ jobs:
         response=$(curl ${{ steps.test_report.outputs.url }})
         echo $response > check_runs.json
         echo "$response" | jq '.'
-        echo "${{response.output.summary}}" | jq '.'
 
     - name: "Upload Summary as HTML"
       uses: actions/upload-artifact@v4
