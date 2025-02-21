@@ -38,7 +38,9 @@ jobs:
     - name: Show JSON Output of Summary
       run: |
         echo "Test Summary: ${{ steps.test_report.outputs.url }}"
-        curl ${{ steps.test_report.outputs.url }}
+        response=$(curl -s ${{ steps.test_report.outputs.url }})
+          json=$(echo "$response" | grep -oP '\{.*\}')
+          echo "$json" | jq '.'
 
     - name: "Upload Summary as HTML"
       uses: actions/upload-artifact@v4
