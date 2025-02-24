@@ -9,6 +9,6 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v5
+    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v6
     secrets:
       mvnArgs: -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
