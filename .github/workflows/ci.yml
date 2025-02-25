@@ -39,7 +39,7 @@ jobs:
         name: JUnit Test Results
         reporter: java-junit
         path: '**/target/*-reports/*.xml'
-        use-actions-summary: 'true'
+        only-summary: 'true'
 
     - name: Export test results to json file
       run: |
