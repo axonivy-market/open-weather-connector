@@ -26,7 +26,7 @@ jobs:
         maven-version: 3.9.8
 
     - name: Build with Maven
-      run: mvn clean verify --batch-mode --fail-at-end-Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
+      run: mvn clean verify --batch-mode --fail-at-end -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
 
     - name: Remove test summary files
       run: rm -f **/target/*-reports/*-summary.xml
