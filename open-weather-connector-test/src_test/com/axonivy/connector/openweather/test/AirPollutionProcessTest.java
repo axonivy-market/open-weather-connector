@@ -42,7 +42,7 @@ public class AirPollutionProcessTest {
 		ExecutionResult result = OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
 				GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(TEST_LON_VALUE, TEST_LAT_VALUE);
 		var object = result.data().last().get(RESULT_KEY);
-		assertThat(object).isInstanceOf(Number.class);
+		assertThat(object).isInstanceOf(AirPollution.class);
 	}
 
 	@TestTemplate
@@ -51,7 +51,7 @@ public class AirPollutionProcessTest {
 			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(900);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 
