@@ -12,10 +12,6 @@
   <artifactId>open-weather-connector-test</artifactId>
   <version>13.1.1-SNAPSHOT</version>
   <packaging>iar</packaging>
-  <properties>
-    <tester.version>12.0.0</tester.version>
-    <project.build.plugin.version>12.0.0</project.build.plugin.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>com.axonivy.connector.openweather</groupId>
@@ -80,7 +76,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.5.2</version>
         <configuration>
           <systemPropertyVariables>
             <appId>${openweather.appId}</appId>
