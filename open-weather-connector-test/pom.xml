@@ -80,6 +80,7 @@
             <appId>${openweather.appId}</appId>
             <weatherDataUrl>${openweather.weatherDataUrl}</weatherDataUrl>
             <weatherGeoUrl>${openweather.weatherGeoUrl}</weatherGeoUrl>
+            <testEnvironment>${testEnvironment}</testEnvironment>
           </systemPropertyVariables>
           <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
             <disable>false</disable>
