@@ -5,6 +5,8 @@ public class OpenWeatherCommonConstants {
 	public static final String RESULTS_KEY = "results";
 	public static final String REAL_CALL_CONTEXT_DISPLAY_NAME = "Real Server Test";
 	public static final String MOCK_SERVER_CONTEXT_DISPLAY_NAME = "Mock Server Test";
+	public static final String END_TO_END_TESTING_ENVIRONMENT_KEY = "testEnvironment";
+	public static final String END_TO_END_TESTING_ENVIRONMENT_VALUE = "E2E Testing";
 	public static final String GET_FORECAST_PROCESS_PATH = "connector/ForecastWeather";
 	public static final String GET_AIR_POLLUTION_PROCESS_PATH = "connector/AirPollution";
 	public static final String GET_CURRENT_WEATHER_PROCESS_PATH = "connector/CurrentWeather";
