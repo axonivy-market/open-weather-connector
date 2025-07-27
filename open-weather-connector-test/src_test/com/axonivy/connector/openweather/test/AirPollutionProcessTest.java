@@ -69,7 +69,7 @@ public class AirPollutionProcessTest {
 			OpenWeatherUtils.getSubProcessWithNameAndPath(client, GET_AIR_POLLUTION_PROCESS_PATH,
 					GET_FORECAST_AIR_POLLUTION_BY_GEOCODE_SIGNATURE).execute(null, null);
 		} catch (BpmError e) {
-			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(e.getHttpStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
 		}
 	}
 
