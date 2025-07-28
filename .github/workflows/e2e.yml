@@ -7,6 +7,6 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@bugfix/MARP-2689-CI-workflow-failed-test-without-test-report
+    uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v6
     secrets:
       mvnArgs: -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }} "-DtestEnvironment=${{ secrets.END_2_END_TESTING_ENV }}"
