@@ -2,6 +2,7 @@ name: Dev-Build
 
 permissions:
   contents: read
+  checks: write
 
 on:
   push:
