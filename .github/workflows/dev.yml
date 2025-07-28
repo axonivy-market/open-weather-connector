@@ -1,5 +1,8 @@
 name: Dev-Build
 
+permissions:
+  contents: read
+
 on:
   push:
   schedule:
