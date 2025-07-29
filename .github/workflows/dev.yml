@@ -3,12 +3,13 @@ name: Dev-Build
 on:
   push:
   schedule:
-    - cron:  '21 21 * * *'
+    - cron: "21 21 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   build:
-    permissions:
-      contents: read
-      pull-requests: write
     uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v6
