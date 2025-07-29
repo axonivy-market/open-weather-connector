@@ -1,4 +1,4 @@
-name: End-2-End Testing Build
+name: E2E-Build
 
 on:
   schedule:
