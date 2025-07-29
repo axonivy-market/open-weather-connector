@@ -49,7 +49,7 @@ public class GeocodingLocationProcessTest {
 		var object = result.data().last().get(RESULTS_KEY);
 		assertThat(object).isInstanceOf(List.class);
 		var objects = (ArrayList<?>) object;
-		assertThat(objects).isEmpty();
+		assertThat(objects).isNotEmpty();
 		assertThat(objects.get(0)).isInstanceOf(GeoLocation.class);
 	}
 
