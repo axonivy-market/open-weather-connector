@@ -32,7 +32,7 @@ jeden Ort weltweit zugreifen. Befolgen Sie diese einfachen Schritte:
 ![Demo](images/forecast-weather-demo.png)
 ![Demo](images/precipitation-chart.png) ![Demo](images/wind-chart.png)
 
-## Einrichtung
+## Setup
 
 ### Anwendungs-ID
 Die OpenWeatherMap-Wetter-API ist nicht kostenlos nutzbar. Es gibt jedoch eine
