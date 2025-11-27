@@ -21,7 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openweathermap.api.data2_5.client.Forecast;
 import org.openweathermap.api.data2_5.client.WeatherRecord;
 import org.primefaces.model.charts.ChartData;
