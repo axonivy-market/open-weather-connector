@@ -15,5 +15,7 @@ permissions:
 jobs:
   build:
     uses: axonivy-market/github-workflows/.github/workflows/ci.yml@v6
+    with:
+      cspellConfig: cspell.json
     secrets:
       mvnArgs: -Dopenweather.appId=${{ secrets.APP_ID }} -Dopenweather.weatherDataUrl=${{ secrets.WEATHER_DATA_URL }} -Dopenweather.weatherGeoUrl=${{ secrets.WEATHER_GEO_URL }}
