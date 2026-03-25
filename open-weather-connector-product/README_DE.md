@@ -54,5 +54,5 @@ Projekt in der Datei variables.yaml als Variable â€žopenWeatherConnector.appIdâ€
 speichern:
 
 ```
-@variables.yaml@ 
+@variables.yaml@
 ```
