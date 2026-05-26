@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/13.2.0/process.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
   "id" : "18D5F6F109062548",
   "kind" : "CALLABLE_SUB",
   "config" : {
@@ -63,7 +63,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "clientId" : "GeocodingCoordinates-Openweathermap-geocoding-API",
           "path" : "/direct",
           "queryParams" : {
             "q" : "in.param.q is initialized ? in.param.q : null",
@@ -159,7 +159,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "clientId" : "GeocodingCoordinates-Openweathermap-geocoding-API",
           "path" : "/zip",
           "queryParams" : {
             "appid" : "",
@@ -250,7 +250,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "550bf66e-4811-47e6-b1ca-1942196a3487",
+          "clientId" : "GeocodingCoordinates-Openweathermap-geocoding-API",
           "path" : "/reverse",
           "queryParams" : {
             "limit" : "in.param.limit is initialized ? in.param.limit : null",

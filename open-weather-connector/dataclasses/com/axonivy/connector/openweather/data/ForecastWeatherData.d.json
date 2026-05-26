@@ -1,16 +1,18 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
   "simpleName" : "ForecastWeatherData",
   "namespace" : "com.axonivy.connector.openweather.data",
-  "isBusinessCaseData" : false,
   "fields" : [ {
     "name" : "result",
-    "type" : "org.openweathermap.api.data2_5.client.Forecast"
+    "type" : "org.openweathermap.api.data2_5.client.Forecast",
+    "modifiers" : [ ]
   }, {
     "name" : "param",
-    "type" : "com.axonivy.connector.openweather.data.WeatherParams"
+    "type" : "com.axonivy.connector.openweather.data.WeatherParams",
+    "modifiers" : [ ]
   }, {
     "name" : "error",
-    "type" : "ch.ivyteam.ivy.bpm.error.BpmError"
+    "type" : "ch.ivyteam.ivy.bpm.error.BpmError",
+    "modifiers" : [ ]
   } ]
 }

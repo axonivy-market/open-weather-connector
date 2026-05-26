@@ -1,0 +1,513 @@
+openapi: "3.0.3"
+info:
+  version: 1.0.0
+  title: Openweathermap weather API
+servers:
+  - url: https://api.openweathermap.org/data/2.5/
+tags:
+    - name: Weather
+    - name: AirPollution
+paths:
+  /forecast:
+    get:
+      summary: Call 5 day / 3 hour forecast data
+      operationId: getForecastWeather
+      tags:
+        - Weather
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lang
+          in: query
+          description: Language
+          required: false
+          schema:
+            type: string
+            default: "en"
+        - name: units
+          in: query
+          description: Units
+          required: false
+          schema:
+            type: string
+            enum: ["metric","kelvin","imperial"]
+            default: "kelvin"
+        - name: mode
+          in: query
+          description: Response format
+          required: false
+          schema:
+            type: string
+            enum: ["json","xml"]
+        - name: cnt
+          in: query
+          description: A number of timestamps
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Forecast cast
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Forecast"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /weather:
+    get:
+      summary: Call current weather data
+      operationId: getCurrentWeather
+      tags:
+        - Current
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lang
+          in: query
+          description: Language
+          required: false
+          schema:
+            type: string
+            default: "en"
+        - name: units
+          in: query
+          description: Units
+          required: false
+          schema:
+            type: string
+            enum: ["metric","kelvin","imperial"]
+            default: "kelvin"
+        - name: mode
+          in: query
+          description: Response format
+          required: false
+          schema:
+            type: string
+            enum: ["json","xml"]
+      responses:
+        '200':
+          description: Current cast
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Current"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /air_pollution:
+    get:
+      summary: Call current air pollution data
+      operationId: getCurrentAirPollution
+      tags:
+        - AirPollution
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: Current air pollution
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AirPollution"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /air_pollution/forecast:
+    get:
+      summary: Call forecast air pollution data
+      operationId: getForecastAirPollution
+      tags:
+        - AirPollution
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: Forecast air pollution
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AirPollution"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /air_pollution/history:
+    get:
+      summary: Call historical air pollution data
+      operationId: getHistoricalAirPollution
+      tags:
+        - AirPollution
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: start
+          in: query
+          description: Start date (unix time, UTC time zone)
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: end
+          in: query
+          description: End date (unix time, UTC time zone)
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Historical air pollution
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AirPollution"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Forecast:
+      type: object
+      properties:
+        cod:
+          type: string
+        message:
+          type: integer
+          format: int32
+        cnt:
+          type: integer
+          format: int32
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherRecord'
+        city:
+          $ref: '#/components/schemas/City'
+    Current:
+      type: object
+      properties:
+        coord:
+          $ref: '#/components/schemas/Coord'
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/Weather'
+        base:
+          type: string
+        main:
+          $ref: '#/components/schemas/Main'
+        visibility:
+          type: integer
+          format: int32
+        wind:
+          $ref: '#/components/schemas/Wind'
+        rain:
+          $ref: '#/components/schemas/Rain'
+        clouds:
+          $ref: '#/components/schemas/Clouds'
+        dt:
+          type: integer
+          format: int64
+        sys:
+          $ref: '#/components/schemas/Sys'
+        timezone:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        cod:
+          type: integer
+          format: int32
+    AirPollution:
+      type: object
+      properties:
+        coord:
+          $ref: '#/components/schemas/Coord'
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/AirPollutionRecord'
+    WeatherRecord:
+      type: object
+      properties:
+        dt:
+          type: integer
+          format: int64
+        main:
+          $ref: '#/components/schemas/Main'
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/Weather'
+        clouds:
+          $ref: '#/components/schemas/Clouds'
+        wind:
+          $ref: '#/components/schemas/Wind'
+        visibility:
+          type: integer
+          format: int32
+        pop:
+          type: number
+          format: float
+        rain:
+          $ref: '#/components/schemas/Rain'
+        sys:
+          $ref: '#/components/schemas/Sys'
+        dt_txt:
+          type: string
+    Main:
+      type: object
+      properties:
+        temp:
+          type: number
+          format: float
+        feels_like:
+          type: number
+          format: float
+        temp_min:
+          type: number
+          format: float
+        temp_max:
+          type: number
+          format: float
+        pressure:
+          type: integer
+          format: int32
+        sea_level:
+          type: integer
+          format: int32
+        grnd_level:
+          type: integer
+          format: int32
+        humidity:
+          type: integer
+          format: int32
+        temp_kf:
+          type: number
+          format: float
+    Weather:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        main:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+    Clouds:
+      type: object
+      properties:
+        all:
+          type: integer
+          format: int32
+    Wind:
+      type: object
+      properties:
+        speed:
+          type: number
+          format: float
+        deg:
+          type: integer
+          format: int32
+        gust:
+          type: number
+          format: float
+    Rain:
+      type: object
+      properties:
+        1h:
+          type: number
+          format: float
+        3h:
+          type: number
+          format: float
+    Sys:
+      type: object
+      properties:
+        pod:
+          type: string
+        type:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int32
+        country:
+          type: string
+        sunrise:
+          type: integer
+          format: int32
+        sunset:
+          type: integer
+          format: int32
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        coord:
+          $ref: '#/components/schemas/Coord'
+        country:
+          type: string
+        population:
+          type: integer
+          format: int32
+        timezone:
+          type: integer
+          format: int32
+        sunrise:
+          type: integer
+          format: int32
+        sunset:
+          type: integer
+          format: int32
+    Coord:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    AirPollutionMain:
+      type: object
+      properties:
+        aqi:
+          type: integer
+          format: int32
+    AirPollutionComponents:
+      type: object
+      properties:
+        co:
+          type: number
+          format: float
+        "no":
+          type: number
+          format: float
+        no2:
+          type: number
+          format: float
+        o3:
+          type: number
+          format: float
+        so2:
+          type: number
+          format: float
+        pm2_5:
+          type: number
+          format: float
+        pm10:
+          type: number
+          format: float
+        nh3:
+          type: number
+          format: float
+    AirPollutionRecord:
+      type: object
+      properties:
+        dt:
+          type: integer
+          format: int64
+        main:
+          $ref: '#/components/schemas/AirPollutionMain'
+        components:
+          $ref: '#/components/schemas/AirPollutionComponents'
+            
+    Error:
+      type: object
+      required: ["code","message"]
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
