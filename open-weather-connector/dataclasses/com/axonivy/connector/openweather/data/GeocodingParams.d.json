@@ -1,34 +1,36 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
   "simpleName" : "GeocodingParams",
   "namespace" : "com.axonivy.connector.openweather.data",
-  "isBusinessCaseData" : false,
   "fields" : [ {
     "name" : "cityName",
-    "type" : "String"
+    "modifiers" : [ ]
   }, {
     "name" : "limit",
-    "type" : "Integer"
+    "type" : "Integer",
+    "modifiers" : [ ]
   }, {
     "name" : "lat",
-    "type" : "Double"
+    "type" : "Double",
+    "modifiers" : [ ]
   }, {
     "name" : "lon",
-    "type" : "Double"
+    "type" : "Double",
+    "modifiers" : [ ]
   }, {
     "name" : "countryCode",
-    "type" : "String"
+    "modifiers" : [ ]
   }, {
     "name" : "stateCode",
-    "type" : "String"
+    "modifiers" : [ ]
   }, {
     "name" : "zipCode",
-    "type" : "String"
+    "modifiers" : [ ]
   }, {
     "name" : "q",
-    "type" : "String"
+    "modifiers" : [ ]
   }, {
     "name" : "zip",
-    "type" : "String"
+    "modifiers" : [ ]
   } ]
 }

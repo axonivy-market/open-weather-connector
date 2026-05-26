@@ -1,0 +1,413 @@
+openapi: "3.0.3"
+info:
+  version: 1.0.0
+  title: Openweathermap geocoding API
+servers:
+  - url: http://api.openweathermap.org/geo/1.0/
+tags:
+    - name: Direct
+    - name: Zip
+    - name: Reverse
+paths:
+  /direct:
+    get:
+      summary: Call coordinates by location name
+      operationId: getCoordinatesByLocationName
+      tags:
+        - Direct
+      parameters:
+        - name: q
+          in: query
+          description: City name, state code (only for the US) and country code divided by comma. Please use ISO 3166 country codes.
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of the locations in the API response (up to 5 results can be returned in the API response)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Geocoding cast
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeoLocation"
+                  
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /zip:
+    get:
+      summary: Call coordinates by zip/post code
+      operationId: getCoordinatesByZipCode
+      tags:
+        - Zip
+      parameters:
+        - name: zip
+          in: query
+          description: Zip/post code and country code divided by comma. Please use ISO 3166 country codes.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Geocoding cast
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/GeoLocation"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /reverse:
+    get:
+      summary: Call reverse geocoding
+      operationId: getLocationByCoordinates
+      tags:
+        - Reverse
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: limit
+          in: query
+          description: Number of the location names in the API response (several results can be returned in the API response)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Location cast
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeoLocation"
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    GeoLocation:
+      type: object
+      properties:
+        name:
+          type: string
+        local_names:
+          $ref: '#/components/schemas/LocalNames'
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+        country:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+    LocalNames:
+      type: object
+      properties:
+        ab:
+          type: string
+        af:
+          type: string
+        an:
+          type: string
+        ar:
+          type: string
+        av:
+          type: string
+        ay:
+          type: string
+        az:
+          type: string
+        be:
+          type: string
+        bg:
+          type: string
+        bh:
+          type: string
+        bi:
+          type: string
+        bm:
+          type: string
+        bn:
+          type: string
+        bo:
+          type: string
+        br:
+          type: string
+        bs:
+          type: string
+        ca:
+          type: string
+        ce:
+          type: string
+        co:
+          type: string
+        cs:
+          type: string
+        cu:
+          type: string
+        cy:
+          type: string
+        da:
+          type: string
+        de:
+          type: string
+        ee:
+          type: string
+        el:
+          type: string
+        en:
+          type: string
+        eo:
+          type: string
+        es:
+          type: string
+        et:
+          type: string
+        eu:
+          type: string
+        fa:
+          type: string
+        ff:
+          type: string
+        fi:
+          type: string
+        fj:
+          type: string
+        fo:
+          type: string
+        fr:
+          type: string
+        fy:
+          type: string
+        ga:
+          type: string
+        gd:
+          type: string
+        gl:
+          type: string
+        gn:
+          type: string
+        gu:
+          type: string
+        ha:
+          type: string
+        he:
+          type: string
+        hi:
+          type: string
+        hr:
+          type: string
+        ht:
+          type: string
+        hu:
+          type: string
+        ia:
+          type: string
+        id:
+          type: string
+        ig:
+          type: string
+        is:
+          type: string
+        it:
+          type: string
+        ja:
+          type: string
+        jv:
+          type: string
+        ka:
+          type: string
+        kk:
+          type: string
+        km:
+          type: string
+        kn:
+          type: string
+        ko:
+          type: string
+        ku:
+          type: string
+        kw:
+          type: string
+        ky:
+          type: string
+        lb:
+          type: string
+        li:
+          type: string
+        ln:
+          type: string
+        lo:
+          type: string
+        lt:
+          type: string
+        lv:
+          type: string
+        mg:
+          type: string
+        mi:
+          type: string
+        mk:
+          type: string
+        ml:
+          type: string
+        mn:
+          type: string
+        mr:
+          type: string
+        ms:
+          type: string
+        mt:
+          type: string
+        my:
+          type: string
+        na:
+          type: string
+        nb:
+          type: string
+        ne:
+          type: string
+        nl:
+          type: string
+        nn:
+          type: string
+        "no":
+          type: string
+        nv:
+          type: string
+        ny:
+          type: string
+        oc:
+          type: string
+        or:
+          type: string
+        os:
+          type: string
+        pa:
+          type: string
+        pl:
+          type: string
+        ps:
+          type: string
+        pt:
+          type: string
+        qu:
+          type: string
+        ro:
+          type: string
+        ru:
+          type: string
+        rw:
+          type: string
+        sc:
+          type: string
+        sd:
+          type: string
+        se:
+          type: string
+        si:
+          type: string
+        sk:
+          type: string
+        sl:
+          type: string
+        sm:
+          type: string
+        so:
+          type: string
+        sq:
+          type: string
+        sr:
+          type: string
+        st:
+          type: string
+        sv:
+          type: string
+        sw:
+          type: string
+        ta:
+          type: string
+        te:
+          type: string
+        tg:
+          type: string
+        th:
+          type: string
+        tl:
+          type: string
+        to:
+          type: string
+        tr:
+          type: string
+        tw:
+          type: string
+        ug:
+          type: string
+        uk:
+          type: string
+        ur:
+          type: string
+        uz:
+          type: string
+        vi:
+          type: string
+        wo:
+          type: string
+        xh:
+          type: string
+        yi:
+          type: string
+        yo:
+          type: string
+        zh:
+          type: string
+        zu:
+          type: string
+        ascii:
+          type: string
+        feature_name:
+          type: string
+    Error:
+      type: object
+      required: ["code","message"]
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

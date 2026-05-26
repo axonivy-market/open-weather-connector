@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/13.2.0/process.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
   "id" : "18D5F959C5356687",
   "kind" : "CALLABLE_SUB",
   "config" : {
@@ -54,7 +54,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "c7415148-b288-475b-8d2f-e532ddae4472",
+          "clientId" : "WeatherData-Openweathermap-weather-API",
           "path" : "/air_pollution",
           "queryParams" : {
             "lat" : "in.param.lat is initialized ? in.param.lat : null",
@@ -144,7 +144,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "c7415148-b288-475b-8d2f-e532ddae4472",
+          "clientId" : "WeatherData-Openweathermap-weather-API",
           "path" : "/air_pollution/forecast",
           "queryParams" : {
             "lat" : "in.param.lat is initialized ? in.param.lat : null",
@@ -247,7 +247,7 @@
       "name" : "call rest",
       "config" : {
         "target" : {
-          "clientId" : "c7415148-b288-475b-8d2f-e532ddae4472",
+          "clientId" : "WeatherData-Openweathermap-weather-API",
           "path" : "/air_pollution/history",
           "queryParams" : {
             "lat" : "in.param.lat is initialized ? in.param.lat : null",

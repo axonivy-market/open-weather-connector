@@ -1,6 +1,6 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/webservice-clients-2.json
 WebServiceClients:
-  http://api.openweathermap.org/data/2.5:
-    Id: 18CFCB586A4A7FCB
+  httpapiopenweathermaporgdata25:
+    Name: http://api.openweathermap.org/data/2.5
     WsdlUrl: http://api.openweathermap.org/data/2.5
-    WsCallLibrary: CXF
-    Endpoints: {}
+    LegacyId: 18CFCB586A4A7FCB
