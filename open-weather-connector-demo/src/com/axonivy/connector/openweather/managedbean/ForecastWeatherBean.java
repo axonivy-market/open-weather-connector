@@ -16,10 +16,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openweathermap.api.data2_5.client.Forecast;
@@ -42,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.ivyteam.ivy.environment.Ivy;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class ForecastWeatherBean implements Serializable {
 

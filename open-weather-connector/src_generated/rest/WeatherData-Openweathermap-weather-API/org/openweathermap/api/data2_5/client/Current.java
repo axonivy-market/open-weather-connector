@@ -31,7 +31,7 @@ import org.openweathermap.api.data2_5.client.Wind;
  * Current
  */
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-02-21T15:08:59.864393900+07:00[Asia/Bangkok]")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2024-02-21T15:08:59.864393900+07:00[Asia/Bangkok]")
 public class Current {
   @JsonProperty("coord")
   private Coord coord = null;
