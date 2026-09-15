@@ -6,7 +6,7 @@ import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.core.UriBuilder;
 
-import ch.ivyteam.ivy.rest.client.FeatureConfig;
+import ch.ivyteam.ivy.rest.client.feature.FeatureConfig;
 
 public class AppIdAuthorizationFilter implements ClientRequestFilter {
 
@@ -16,7 +16,7 @@ public class AppIdAuthorizationFilter implements ClientRequestFilter {
 
 	@Override
 	public void filter(ClientRequestContext ctxt) throws IOException {
-		var config = new FeatureConfig(ctxt.getConfiguration(), OpenWeatherAuthFeature.class);
+		var config = FeatureConfig.of(ctxt.getConfiguration(), OpenWeatherAuthFeature.class);
 		UriBuilder builder = UriBuilder.fromUri(ctxt.getUri());
 		builder.queryParam("appId", config.readMandatory(Property.APP_ID));
 		ctxt.setUri(builder.build());
