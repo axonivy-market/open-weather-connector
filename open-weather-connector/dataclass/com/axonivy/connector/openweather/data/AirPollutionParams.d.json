@@ -1,0 +1,42 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "AirPollutionParams",
+  "namespace" : "com.axonivy.connector.openweather.data",
+  "fields" : [ {
+    "name" : "startDate",
+    "type" : "java.time.OffsetDateTime",
+    "modifiers" : [ ]
+  }, {
+    "name" : "endDate",
+    "type" : "java.time.OffsetDateTime",
+    "modifiers" : [ ]
+  }, {
+    "name" : "lat",
+    "type" : "Double",
+    "modifiers" : [ ]
+  }, {
+    "name" : "lon",
+    "type" : "Double",
+    "modifiers" : [ ]
+  }, {
+    "name" : "start",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "end",
+    "type" : "Long",
+    "modifiers" : [ ]
+  }, {
+    "name" : "cityName",
+    "modifiers" : [ ]
+  }, {
+    "name" : "countryCode",
+    "modifiers" : [ ]
+  }, {
+    "name" : "stateCode",
+    "modifiers" : [ ]
+  }, {
+    "name" : "zipCode",
+    "modifiers" : [ ]
+  } ]
+}
