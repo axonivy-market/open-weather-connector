@@ -1,0 +1,18 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0/project/data-class.json",
+  "simpleName" : "ForecastWeatherData",
+  "namespace" : "com.axonivy.connector.openweather.data",
+  "fields" : [ {
+    "name" : "result",
+    "type" : "org.openweathermap.api.data2_5.client.Forecast",
+    "modifiers" : [ ]
+  }, {
+    "name" : "param",
+    "type" : "com.axonivy.connector.openweather.data.WeatherParams",
+    "modifiers" : [ ]
+  }, {
+    "name" : "error",
+    "type" : "ch.ivyteam.ivy.bpm.error.BpmError",
+    "modifiers" : [ ]
+  } ]
+}
